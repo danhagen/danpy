@@ -56,26 +56,29 @@ class dsb:
 			if i == self.Bars[0]:
 				self.__delattr__('Bars')
 				self.__init__()
+
 		if self.counter == 0:
-			self.Bars = [int(el) for el in np.linspace(i,N,StatusBarWidth+1)]
+			self.Bars = list(set([int(el) for el in np.linspace(i,N,StatusBarWidth+1)]))
 			print(colored(">>> Running " + Title + " <<<",'blue',attrs=['bold']))
-		elif i==self.Bars[1]:
+			self.counter += 1
+		elif i==self.Bars[1] and self.counter == 1:
 			self.TimeArray.append(time.time()-self.StartTime)
 			self.TimeLeft = '{0:1.1f}'.format(self.TimeArray[-1]*(N/(i+1)))
-		elif i in self.Bars[2:]:
+			self.counter += 1
+		elif i == self.Bars[self.counter]:
 			self.TimeArray.append(time.time()-self.StartTime)
 			self.TimeLeft = \
 					'{0:1.1f}'.format(\
 						float(\
 							interpolate.interp1d(\
 								np.arange(len(self.TimeArray)),self.TimeArray,\
-									fill_value='extrapolate')(StatusBarWidth-1))\
-										-self.TimeArray[-1])
+									fill_value='extrapolate')(len(self.Bars)-3))\
+										-(time.time()-self.StartTime))
+			self.counter += 1
 		print(" "*TerminalWidth,end='\r')
 		print(statusbar + colored('{0:1.1f}'.format((i+1)/N*100) + '% complete, ','blue') + \
 			colored('{0:1.1f}'.format(time.time() - self.StartTime) + ' sec,','red') + \
 			colored(' (est. ' + self.TimeLeft + ' sec left)','white'), end='\r')
-		self.counter+=1
 		if i == N-1:
 			print(" "*TerminalWidth)
 			print(statusbar + colored('{0:1.1f}'.format((i+1)/N*100) + '% complete, ','blue') + \
