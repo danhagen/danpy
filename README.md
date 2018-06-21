@@ -78,6 +78,7 @@ N_loops = 10
 while count<=N_loops:
   sleep(0.5)
   SB.statusbar(count,N_loops,Title="Testing One Loop")
+  count+=1
 ```
 
 Only compatible with while loops that utilize a `count` metric where the loop continues while `count<=N_loops`. The "<=" ensures that the statusbar terminates at 100%. If you use "<" strictly, then the input to the statusbar will be `SB.statusbar(i,N_loops-1,**kwargs)`.
