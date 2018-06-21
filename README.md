@@ -73,10 +73,11 @@ from dsb import *
 from time import sleep
 
 SB = dsb()
+count = 0
 N_loops = 10
-while i<=N_loops:
+while count<=N_loops:
   sleep(0.5)
-  SB.statusbar(i,N_loops,Title="Testing One Loop")
+  SB.statusbar(count,N_loops,Title="Testing One Loop")
 ```
 
 Only compatible with while loops that utilize a `count` metric where the loop continues while `count<=N_loops`. The "<=" ensures that the statusbar terminates at 100%. If you use "<" strictly, then the input to the statusbar will be `SB.statusbar(i,N_loops-1,**kwargs)`.
