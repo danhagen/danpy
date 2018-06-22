@@ -92,10 +92,10 @@ class dsb:
 				)
 			end_time_estimate = run_time_func(len(self.bar_indices)-3)
 			self.time_left = '{0:1.1f}'.format(
-				float(end_time_estimate - (time.time()-self.start_time)
+				float(end_time_estimate - (time.time()-self.start_time))
 				)
 			self.counter += 1
-		print(" "*terminal_width,end='\r')
+		print(" "*(terminal_width-1),end='\r')
 		print(
 			(statusbar
 			+ colored('{0:1.1f}'.format((i+1)/N*100) + '% complete, ','blue') + colored(
