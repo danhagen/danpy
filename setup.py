@@ -9,7 +9,7 @@ if path.isfile(readme_filepath):
         README = f.read()
 
 setup(name='dsb',
-      version='0.0.1',
+      version='0.0.2',
       description='Statusbar function for Python',
       long_description=README,
       long_description_content_type="text/markdown",
@@ -17,6 +17,5 @@ setup(name='dsb',
       author='Daniel Hagen',
       author_email='dhagen@usc.edu',
       license='MIT',
-      packages = ['dsb'],
       install_requires=['termcolor'],
       zip_safe=False)
