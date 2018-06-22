@@ -1,6 +1,6 @@
 # Statusbar for Python `for/while` loops
 Prepared by: Daniel A Hagen  
-[![Build Status](https://travis-ci.org/bc/ftpsconnector.svg?branch=master)](https://travis-ci.org/bc/ftpsconnector)
+[![Build Status](https://travis-ci.org/danhagen/dsb.svg?branch=master)](https://travis-ci.org/danhagen/dsb)
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
 [![Coverage Status](https://coveralls.io/repos/github/bc/ftpsconnector/badge.svg)](https://coveralls.io/github/bc/ftpsconnector)
 # Installation
