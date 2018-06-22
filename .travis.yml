@@ -1,3 +1,5 @@
+language: python
+
 git:
   depth: 3
 python:
@@ -6,8 +8,8 @@ python:
   - "3.6-dev"  # 3.6 development branch
 # command to install dependencies
 install:
-  - pip install .
   - pip install -r requirements.txt
+  - pip install .
 cache: pip
 # command to run tests
 script:
