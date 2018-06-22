@@ -19,7 +19,7 @@ pip install .
 
 ### Initialize statusbar before running a for/while loop.
 ```py
-from dsb import *
+from danpy_sb import *
 from time import sleep
 
 SB = dsb()
@@ -31,7 +31,7 @@ for i in range(N_loops):
 It is useful to either reset the statusbar instance. However, loops run in succession will automatically reset if the loops are of the same size.
 
 ```py
-from dsb import *
+from danpy_sb import *
 from time import sleep
 
 SB = dsb()
@@ -40,7 +40,7 @@ for j in range(3):
   for i in range(N_loops):
     sleep(0.5)
     SB.statusbar(i,N_loops,Title="Testing Loop-D-Loops")
-    
+
 for i in range(N_loops):
   sleep(0.5)
   SB.statusbar(i,N_loops,Title="Test Another Loop")
@@ -48,7 +48,7 @@ for i in range(N_loops):
 
 ### Resetting Statusbar
 ```py
-from dsb import *
+from danpy_sb import *
 from time import sleep
 
 SB = dsb()
@@ -56,7 +56,7 @@ N_loops = 10
 for i in range(N_loops):
   sleep(0.5)
   SB.statusbar(i,N_loops,Title="Testing One Loop")
-    
+
 SB.reset_dsb()
 N_loops = 20
 for i in range(N_loops):
@@ -66,10 +66,10 @@ for i in range(N_loops):
 
 ### Using `while` Loops
 
-If using a `while` loop, the statusbar will still update, but depending on the nature of the code in the loop, the extrapolation to determine time remaining may be off. 
+If using a `while` loop, the statusbar will still update, but depending on the nature of the code in the loop, the extrapolation to determine time remaining may be off.
 
 ```py
-from dsb import *
+from danpy_sb import *
 from time import sleep
 
 SB = dsb()
