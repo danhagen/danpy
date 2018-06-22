@@ -8,13 +8,13 @@ def print_input(input):
 
 def double_input(input):
 	return(2*input)
-
+#
 # class dsb:
 # 	def __init__(self):
 # 		self.counter = 0
-# 		self.TimeArray = []
-# 		self.StartTime = time.time()
-# 		self.TimeLeft = '--'
+# 		self.time_array = []
+# 		self.start_time = time.time()
+# 		self.time_left = '--'
 # 	def statusbar(self,i,N,**kwargs):
 # 		"""
 # 		i is the current iteration (must be an int) and N is the length of
@@ -24,7 +24,7 @@ def double_input(input):
 # 		**kwargs
 # 		~~~~~~~~~~~~~~
 #
-# 		Title should be a str that will be displayed before the statusbar. Title
+# 		title should be a str that will be displayed before the statusbar. title
 # 		should be no longer than 25 characters.
 #
 # 		~~~~~~~~~~~~~~
@@ -41,13 +41,14 @@ def double_input(input):
 # 				import subprocess
 # 				return int(subprocess.check_output(["tput", "cols"]))
 #
-# 		TerminalWidth = get_terminal_width()
-# 		UsedSpace = len('XXXX.X' + '% Complete, ' + 'XXXXX.X ' \
-# 							+ ' sec, (est. ' + "XXXXX.X" + ' sec left)')
-# 		StatusBarWidth = TerminalWidth - 2 - UsedSpace
+# 		terminal_width = get_terminal_width()
+# 		used_space = len(
+# 			'XXXX.X' + '% Complete, ' + 'XXXXX.X '
+# 			+ ' sec, (est. ' + "XXXXX.X" + ' sec left)')
+# 		statusbar_width = terminal_width - 2 - used_space
 #
-# 		Title = kwargs.get("Title",'')
-# 		assert type(Title) == str, "Title should be a string"
+# 		title = kwargs.get("title",'Function')
+# 		assert type(title) == str, "title should be a string"
 #
 # 		assert type(i)==int, "i must be an int"
 # 		assert type(N)==int, "N must be an int"
@@ -55,41 +56,73 @@ def double_input(input):
 # 		assert N>0, "N must be a positive integer"
 # 		assert i>=0, "i must not be negative (can be zero)"
 #
-# 		statusbar = colored('[' + '\u25a0'*int((i+1)/(N/StatusBarWidth)) \
-# 							+ '\u25a1'*(StatusBarWidth-int((i+1)/(N/StatusBarWidth))) + '] ',\
-# 							'white',attrs=['bold'])
-# 		if hasattr(self,'Bars'):
-# 			if i == self.Bars[0]:
-# 				self.__delattr__('Bars')
+# 		statusbar = colored(
+# 			('['
+# 			+ '\u25a0'*int((i+1)/(N/statusbar_width)) \
+# 			+ '\u25a1'*(statusbar_width-int((i+1)/(N/statusbar_width)))
+# 			+ '] '
+# 			), 'white',attrs=['bold'])
+# 		if hasattr(self,'bar_indices'):
+# 			if i == self.bar_indices[0]:
+# 				self.__delattr__('bar_indices')
 # 				self.__init__()
 #
 # 		if self.counter == 0:
-# 			self.Bars = list(set([int(el) for el in np.linspace(i,N,StatusBarWidth+1)]))
-# 			print(colored(">>> Running " + Title + " <<<",'blue',attrs=['bold']))
+# 			self.bar_indices = list(
+# 				set(
+# 					[int(el) for el in np.linspace(i,N,statusbar_width+1)]
+# 					)
+# 				)
+# 			print(colored(
+# 				(">>> Running "
+# 				+ title
+# 				+ " <<<"
+# 				),'blue',attrs=['bold']))
 # 			self.counter += 1
-# 		elif i==self.Bars[1] and self.counter == 1:
-# 			self.TimeArray.append(time.time()-self.StartTime)
-# 			self.TimeLeft = '{0:1.1f}'.format(self.TimeArray[-1]*(N/(i+1)))
+# 		elif i==self.bar_indices[1] and self.counter == 1:
+# 			self.time_array.append(time.time()-self.start_time)
+# 			self.time_left = '{0:1.1f}'.format(self.time_array[-1]*(N/(i+1)))
 # 			self.counter += 1
-# 		elif i == self.Bars[self.counter]:
-# 			self.TimeArray.append(time.time()-self.StartTime)
-# 			self.TimeLeft = \
-# 					'{0:1.1f}'.format(\
-# 						float(\
-# 							interpolate.interp1d(\
-# 								np.arange(len(self.TimeArray)),self.TimeArray,\
-# 									fill_value='extrapolate')(len(self.Bars)-3))\
-# 										-(time.time()-self.StartTime))
+# 		elif i == self.bar_indices[self.counter]:
+# 			self.time_array.append(time.time()-self.start_time)
+# 			run_time_func = interpolate.interp1d(
+# 				np.arange(len(self.time_array)),
+# 				self.time_array,
+# 				fill_value='extrapolate'
+# 				)
+# 			end_time_estimate = run_time_func(len(self.bar_indices)-3)
+# 			self.time_left = '{0:1.1f}'.format(
+# 				float(end_time_estimate - (time.time()-self.start_time)
+# 				)
 # 			self.counter += 1
-# 		print(" "*TerminalWidth,end='\r')
-# 		print(statusbar + colored('{0:1.1f}'.format((i+1)/N*100) + '% complete, ','blue') + \
-# 			colored('{0:1.1f}'.format(time.time() - self.StartTime) + ' sec,','red') + \
-# 			colored(' (est. ' + self.TimeLeft + ' sec left)','white'), end='\r')
+# 		print(" "*terminal_width,end='\r')
+# 		print(
+# 			(statusbar
+# 			+ colored('{0:1.1f}'.format((i+1)/N*100) + '% complete, ','blue') + colored(
+# 				('{0:1.1f}'.format(time.time() - self.start_time)
+# 				+ ' sec,'
+# 				),
+# 				'red')
+# 			+ colored(' (est. ' + self.time_left + ' sec left)','white')
+# 			), \
+# 			end='\r')
 # 		if i == N-1:
-# 			print(" "*TerminalWidth)
-# 			print(statusbar + colored('{0:1.1f}'.format((i+1)/N*100) + '% complete, ','blue') + \
-# 				+ colored('(Total Run Time: ' + '{0:1.1f}'.format(time.time() - self.StartTime) + ' sec)','green'))
+# 			print(" "*terminal_width)
+# 			print(
+# 				statusbar
+# 				+ colored(
+# 					('{0:1.1f}'.format((i+1)/N*100)
+# 					+ '% complete, '
+# 					),
+# 					'blue')
+# 				+ colored(
+# 					('(Total Run Time: '
+# 					+ '{0:1.1f}'.format(time.time() - self.start_time)
+# 					+ ' sec)'
+# 					),
+# 					'green')
+# 				)
 # 			print('\n')
 # 	def reset_dsb(self):
-# 		self.__delattr__('Bars')
+# 		self.__delattr__('bar_indices')
 # 		self.__init__()
