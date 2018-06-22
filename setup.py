@@ -19,7 +19,7 @@ setuptools.setup(
     long_description=README,
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
-    install_requires=['termcolor'],
+    install_requires=['termcolor','scipy','numpy'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Programming Language :: Python',
