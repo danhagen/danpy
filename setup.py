@@ -1,4 +1,24 @@
-from setuptools import setup
+import setuptools
+setuptools.setup(
+    name="dsb",
+    version="0.0.3",
+    url="https://github.com/danhagen/dsb",
+    author="Daniel A Hagen",
+    author_email="dhagen@usc.edu",
+    description="A simple statusbar for python for/while loops.",
+    long_description=open('README.rst').read(),
+    packages=setuptools.find_packages(),
+    install_requires=['termcolor'],
+    classifiers=[
+        'Development Status :: 2 - Pre-Alpha',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
+    ],
+)
+
+"""
+setuptools import setup
 from os import path
 
 p = path.abspath(path.dirname(__file__))
@@ -19,3 +39,5 @@ setup(name='dsb',
       license='MIT',
       install_requires=['termcolor'],
       zip_safe=False)
+ 
+"""
