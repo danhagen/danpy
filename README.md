@@ -10,7 +10,7 @@ pip install dsb
 
 # Installation from GitHub
 ```bash
-git clone https://github.com/danhagen/dsb.git && cd dsb
+git clone https://github.com/danhagen/danpy.git && cd danpy
 pip install -r requirements.txt
 pip install .
 ```
@@ -19,7 +19,7 @@ pip install .
 
 ### Initialize statusbar before running a for/while loop.
 ```py
-from danpy_sb.danpy_sb import *
+from danpy.sb import *
 from time import sleep
 
 SB = dsb()
@@ -31,7 +31,7 @@ for i in range(N_loops):
 It is useful to either reset the statusbar instance. However, loops run in succession will automatically reset if the loops are of the same size.
 
 ```py
-from danpy_sb.danpy_sb import *
+from danpy.sb import *
 from time import sleep
 
 SB = dsb()
@@ -48,7 +48,7 @@ for i in range(N_loops):
 
 ### Resetting Statusbar
 ```py
-from danpy_sb.danpy_sb import *
+from danpy.sb import *
 from time import sleep
 
 SB = dsb()
@@ -69,7 +69,7 @@ for i in range(N_loops):
 If using a `while` loop, the statusbar will still update, but depending on the nature of the code in the loop, the extrapolation to determine time remaining may be off.
 
 ```py
-from danpy_sb.danpy_sb import *
+from danpy.sb import *
 from time import sleep
 
 SB = dsb()
