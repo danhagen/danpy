@@ -4,21 +4,21 @@ from os import path
 
 p = path.abspath(path.dirname(__file__))
 readme_filepath = path.join(p, 'README.md')
-README = "See https://github.com/danhagen/dsb for full documentation."
+README = "See https://github.com/danhagen/danpy for full documentation."
 if path.isfile(readme_filepath):
     with open(readme_filepath) as f:
         README = f.read()
 
 setuptools.setup(
-    name="danpy_sb",
+    name="danpy",
     version="0.0.5",
-    url="https://github.com/danhagen/dsb",
+    url="https://github.com/danhagen/danpy",
     author="Daniel A Hagen",
     author_email="dhagen@usc.edu",
-    description="A simple statusbar for python for/while loops.",
+    description="Helpful functions for python.",
     long_description=README,
     long_description_content_type="text/markdown",
-    packages=['danpy_sb'],
+    packages=['sb'],
     install_requires=['termcolor','scipy','numpy'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
