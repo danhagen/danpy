@@ -17,6 +17,5 @@ setup(name='dsb',
       author='Daniel Hagen',
       author_email='dhagen@usc.edu',
       license='MIT',
-      packages=['dsb'],
       install_requires=['termcolor'],
       zip_safe=False)
