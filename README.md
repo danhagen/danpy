@@ -5,7 +5,7 @@ Prepared by: Daniel A Hagen
 [![Coverage Status](https://coveralls.io/repos/github/danhagen/dsb/badge.svg?branch=master)](https://coveralls.io/github/danhagen/dsb?branch=master)
 # Installation
 ```py
-pip install dsb
+pip install danpy
 ```
 
 # Installation from GitHub
