@@ -18,7 +18,7 @@ setuptools.setup(
     description="A simple statusbar for python for/while loops.",
     long_description=README,
     long_description_content_type="text/markdown",
-    packages=setuptools.find_packages(),
+    packages=['danpy_sb'],
     install_requires=['termcolor','scipy','numpy'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
