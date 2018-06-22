@@ -8,9 +8,9 @@ README = "See https://github.com/danhagen/dsb for full documentation."
 if path.isfile(readme_filepath):
     with open(readme_filepath) as f:
         README = f.read()
-        
+
 setuptools.setup(
-    name="dsb",
+    name="danpy_sb",
     version="0.0.4",
     url="https://github.com/danhagen/dsb",
     author="Daniel A Hagen",
@@ -43,5 +43,5 @@ setup(name='dsb',
       license='MIT',
       install_requires=['termcolor'],
       zip_safe=False)
- 
+
 """
