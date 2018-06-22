@@ -1,5 +1,5 @@
 import pytest
-from .danpy_sb import *
+from .sb import *
 
 def test_double_input():
   output = double_input(2)
