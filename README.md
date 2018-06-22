@@ -10,7 +10,7 @@ pip install dsb
 
 # Installation from GitHub
 ```bash
-git clone git@github.com:danhagen/dsb.git && cd dsb
+git clone https://github.com/danhagen/dsb.git && cd dsb
 pip install -r requirements.txt
 pip install .
 ```
