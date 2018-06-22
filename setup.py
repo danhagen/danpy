@@ -6,7 +6,8 @@ setuptools.setup(
     author="Daniel A Hagen",
     author_email="dhagen@usc.edu",
     description="A simple statusbar for python for/while loops.",
-    long_description=open('README.rst').read(),
+    long_description=README,
+    long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
     install_requires=['termcolor'],
     classifiers=[
