@@ -3,6 +3,13 @@ from scipy import interpolate
 import numpy as np
 from termcolor import cprint,colored
 
+def print_input(input):
+	print(input)
+
+def double_input(input):
+	return(2*input)
+	
+"""
 class dsb:
 	def __init__(self):
 		self.counter = 0
@@ -87,3 +94,4 @@ class dsb:
 	def reset_dsb(self):
 		self.__delattr__('Bars')
 		self.__init__()
+"""
