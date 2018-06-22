@@ -82,7 +82,7 @@ class dsb:
 		if i == N-1:
 			print(" "*TerminalWidth)
 			print(statusbar + colored('{0:1.1f}'.format((i+1)/N*100) + '% complete, ','blue') + \
-				'(Total Run Time: ' + colored('{0:1.1f}'.format(time.time() - self.StartTime) + ' sec)','green'))
+				+ colored('(Total Run Time: ' + '{0:1.1f}'.format(time.time() - self.StartTime) + ' sec)','green'))
 			print('\n')
 	def reset_dsb(self):
 		self.__delattr__('Bars')
