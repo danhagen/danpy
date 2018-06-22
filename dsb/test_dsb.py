@@ -1,8 +1,8 @@
 import pytest
-import dsb
+from .dsb import *
 
 def test_double_input():
-  output = dsb.double_input(2)
+  output = double_input(2)
   assert output == 4, "Error with double_input."
   
   
