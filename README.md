@@ -2,7 +2,7 @@
 Prepared by: Daniel A Hagen  
 [![Build Status](https://travis-ci.com/danhagen/dsb.svg?branch=master)](https://travis-ci.com/danhagen/dsb)
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
-[![Coverage Status](https://coveralls.io/repos/github/bc/ftpsconnector/badge.svg)](https://coveralls.io/github/bc/ftpsconnector)
+[![Coverage Status](https://coveralls.io/repos/github/danhagen/dsb/badge.svg?branch=master)](https://coveralls.io/github/danhagen/dsb?branch=master)
 # Installation
 ```py
 pip install dsb
