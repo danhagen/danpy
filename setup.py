@@ -11,7 +11,7 @@ if path.isfile(readme_filepath):
 
 setuptools.setup(
     name="danpy_sb",
-    version="0.0.4",
+    version="0.0.5",
     url="https://github.com/danhagen/dsb",
     author="Daniel A Hagen",
     author_email="dhagen@usc.edu",
