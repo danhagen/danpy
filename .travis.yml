@@ -17,5 +17,5 @@ script:
 after_success:
   - pip install coveralls
   - pip install pytest-cov
-  - py.test --cov=danpy_sb danpy_sb/
+  - py.test --cov=danpy danpy/
   - coveralls
