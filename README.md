@@ -79,7 +79,7 @@ from time import sleep
 statusbar = dsb()
 count = 0
 number_of_loops = 10
-while count<=number_of_loops:
+while count<number_of_loops:
   sleep(0.5)
   statusbar.update(count,number_of_loops,Title="Testing One Loop")
   count+=1
