@@ -15,7 +15,7 @@ class dsb:
 		self.time_array = []
 		self.start_time = time.time()
 		self.time_left = '--'
-	def statusbar(self,i,N,**kwargs):
+	def update(self,i,N,**kwargs):
 		"""
 		i is the current iteration (must be an int) and N is the length of
 		the range (must be an int). i must also be in [0,N).
@@ -123,6 +123,6 @@ class dsb:
 					'green')
 				)
 			print('\n')
-	def reset_dsb(self):
+	def reset(self):
 		self.__delattr__('bar_indices')
 		self.__init__()
