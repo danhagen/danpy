@@ -18,7 +18,7 @@ setuptools.setup(
     description="Helpful functions for python.",
     long_description=README,
     long_description_content_type="text/markdown",
-    packages=['sb'],
+    packages=['danpy'],
     install_requires=['termcolor','scipy','numpy'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
