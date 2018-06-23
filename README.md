@@ -17,7 +17,7 @@ pip install .
 ```
 
 
-# Statusbar for Python `for/while` loops with `danpy.sb`
+## Statusbar for Python `for/while` loops with `danpy.sb`
 This helpful statusbar can be used with `for/while` loops to keep track of how much time has elapsed as well as how much time remains. Simply place inside the loop (after initializing the statusbar -- `dsb`) and `update` with the current timestep (i). A `title` can be added to the statusbar to keep track of individual function/loops and it is recommended that any function that runs a loop uses `arbitrary_function_name.__name__` to automatically assign an appropriate title. 
 
 ### Initialize statusbar before running a for/while loop.
@@ -70,7 +70,6 @@ for i in range(a_different_number_of_loops):
 ```
 
 ### Using `while` Loops
-
 If using a `while` loop, the statusbar will still update, but depending on the nature of the code in the loop, the extrapolation to determine time remaining may be off.
 
 ```py
