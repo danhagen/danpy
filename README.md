@@ -1,4 +1,4 @@
-# Statusbar for Python `for/while` loops
+# Collection of useful python functions/features.
 Prepared by: Daniel A Hagen  
 [![Build Status](https://travis-ci.com/danhagen/danpy.svg?branch=master)](https://travis-ci.com/danhagen/danpy)
 [![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
@@ -17,16 +17,19 @@ pip install .
 
 # Example usage:
 
+# Statusbar for Python `for/while` loops with `danpy.sb`
+This helpful statusbar can be used with `for/while` loops to keep track of how much time has elapsed as well as how much time remains. Simply place inside the loop (after initializing the statusbar -- `dsb`) and `update` with the current timestep (i). A `title` can be added to the statusbar to keep track of individual function/loops and it is recommended that any function that runs a loop uses `arbitrary_function_name.__name__` to automatically assign an appropriate title. 
+
 ### Initialize statusbar before running a for/while loop.
 ```py
 from danpy.sb import *
 from time import sleep
 
-SB = dsb()
-N_loops = 10
-for i in range(N_loops):
+statusbar = dsb()
+number_of_loops = 10
+for i in range(number_of_loops):
   sleep(0.5)
-  SB.statusbar(i,N_loops,Title="Test Loop")
+  statusbar.update(i,number_of_loops,title="Test Loop")
 ```
 It is useful to either reset the statusbar instance. However, loops run in succession will automatically reset if the loops are of the same size.
 
@@ -34,16 +37,18 @@ It is useful to either reset the statusbar instance. However, loops run in succe
 from danpy.sb import *
 from time import sleep
 
-SB = dsb()
-N_loops = 10
-for j in range(3):
-  for i in range(N_loops):
+statusbar = dsb()
+number_of_inside_loops = 10
+number_of_outside_loops = 3
+for j in range(number_of_outside_loops):
+  for i in range(number_of_inside_loops):
     sleep(0.5)
-    SB.statusbar(i,N_loops,Title="Testing Loop-D-Loops")
+    statusbar.update(i,number_of_inside_loops,title="Testing Loop-D-Loops")
 
-for i in range(N_loops):
+number_of_additional_loops = 10
+for i in range(number_of_additional_loops):
   sleep(0.5)
-  SB.statusbar(i,N_loops,Title="Test Another Loop")
+  statusbar.update(i,number_of_additional_loops,title="Test Another Loop")
 ```
 
 ### Resetting Statusbar
@@ -51,17 +56,17 @@ for i in range(N_loops):
 from danpy.sb import *
 from time import sleep
 
-SB = dsb()
-N_loops = 10
-for i in range(N_loops):
+statusbar = dsb()
+number_of_loops = 10
+for i in range(number_of_loops):
   sleep(0.5)
-  SB.statusbar(i,N_loops,Title="Testing One Loop")
+  statusbar.update(i,number_of_loops,title="Testing One Loop")
 
-SB.reset_dsb()
-N_loops = 20
-for i in range(N_loops):
+statusbar.reset()
+a_different_number_of_loops = 20
+for i in range(a_different_number_of_loops):
   sleep(0.5)
-  SB.statusbar(i,N_loops,Title="Test A Different Loop")
+  statusbar.update(i,a_different_number_of_loops,title="Test A Different Loop")
 ```
 
 ### Using `while` Loops
@@ -72,12 +77,12 @@ If using a `while` loop, the statusbar will still update, but depending on the n
 from danpy.sb import *
 from time import sleep
 
-SB = dsb()
+statusbar = dsb()
 count = 0
-N_loops = 10
-while count<=N_loops:
+number_of_loops = 10
+while count<=number_of_loops:
   sleep(0.5)
-  SB.statusbar(count,N_loops,Title="Testing One Loop")
+  statusbar.update(count,number_of_loops,Title="Testing One Loop")
   count+=1
 ```
 
