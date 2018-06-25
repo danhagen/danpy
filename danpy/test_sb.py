@@ -68,14 +68,15 @@ def test_dsb_automatic_reset():
         statusbar.update(i,10)
     statusbar.update(0,10)
     current_time = time.time()
+    test_bar_indices = [0,1,2,3,4,5,6,7,8,9,10]
 
-    assert not hasattr(statusbar,"bar_indices"), "Error resetting dsb(). bar_indices should not exist."
-
+    assert hasattr(statusbar,'bar_indices'), "self.bar_indices not initialized for statusbar.update(...) when statusbar.counter == 0."
     assert hasattr(statusbar,'counter'), "self.counter not initialized for dsb()"
     assert hasattr(statusbar,'time_array'), "self.time_array not initialized for dsb()"
     assert hasattr(statusbar,'start_time'), "self.start_time not initialized for dsb()"
     assert hasattr(statusbar,'time_left'), "self.time_left not initialized for dsb()"
 
+    assert statusbar.bar_indices == test_bar_indices, "Error resetting dsb(). bar_indices should be [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], not " + str(statusbar.bar_indices)
     assert statusbar.counter == 0, \
         "Error initializing self.counter for dsb(). Should be 0, instead of " + str(statusbar.counter)
     assert statusbar.time_array == [], \
@@ -85,4 +86,4 @@ def test_dsb_automatic_reset():
     assert statusbar.time_left == "--", \
         "Error initializing self.time_array. Should be '--', instead of " + str(statusbar.time_left)
 
-    del(statusbar,current_time)
+    del(statusbar,current_time,test_bar_indices)
