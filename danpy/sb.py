@@ -9,6 +9,14 @@ def print_input(input):
 def double_input(input):
 	return(2*input)
 
+def get_terminal_width():
+	try:
+		from shutil import get_terminal_size
+		return get_terminal_size().columns
+	except ImportError:
+		import subprocess
+		return int(subprocess.check_output(["tput", "cols"]))
+
 class dsb:
 	def __init__(self):
 		self.counter = 0
@@ -33,13 +41,6 @@ class dsb:
 		begin printing on the next line.
 
 		"""
-		def get_terminal_width():
-			try:
-				from shutil import get_terminal_size
-				return get_terminal_size().columns
-			except ImportError:
-				import subprocess
-				return int(subprocess.check_output(["tput", "cols"]))
 
 		terminal_width = get_terminal_width()
 		used_space = len(
