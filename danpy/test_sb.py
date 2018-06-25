@@ -2,6 +2,7 @@ import pytest
 import time
 from unittest.mock import patch, call
 import os
+import subprocess
 from .sb import *
 
 def test_double_input():
@@ -33,7 +34,7 @@ def test_dsb__init__():
 
 def test_get_terminal_width():
     assert get_terminal_width() == 80, "Error with get_terminal_width(). Should be 80 (default pytest terminal size), instead of " + str(get_terminal_width())
-    # Need to test exception...
+    assert int(subprocess.check_output(["tput","cols"])) == 80, "Error with get_terminal_width() ImportError mode. The value of int(subprocess.check_output(['tput','cols'])) should be 80 (default pytest terminal size), instead of " + str(int(subprocess.check_output(["tput","cols"])))
 
 def test_dsb_reset():
     statusbar = dsb()
