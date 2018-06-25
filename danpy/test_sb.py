@@ -32,5 +32,4 @@ def test_dsb__init__():
     del(statusbar,current_time)
 
 def test_get_terminal_width():
-    os.system('resize -s 35 50')
-    assert get_terminal_width() == 50, "Error with get_terminal_width(). Should be 50, instead of " + str(get_terminal_width())
+    assert get_terminal_width() == 80, "Error with get_terminal_width(). Should be 80 (default pytest terminal size), instead of " + str(get_terminal_width())
