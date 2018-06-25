@@ -54,7 +54,7 @@ def test_dsb_reset():
         "Error initializing self.counter for dsb(). Should be 0, instead of " + str(statusbar.counter)
     assert statusbar.time_array == [], \
         "Error initializing self.time_array. Should be [], instead of " + str(statusbar.time_array)
-    assert abs(statusbar.start_time - current_time)<1e-4, \
+    assert abs(statusbar.start_time - current_time)<1e-3, \
         "Error initializing self.start_time. Should be " + str(current_time) + ", instead of " + str(statusbar.start_time)
     assert statusbar.time_left == "--", \
         "Error initializing self.time_array. Should be '--', instead of " + str(statusbar.time_left)
@@ -81,7 +81,7 @@ def test_dsb_automatic_reset():
         "Error initializing self.counter for dsb(). Should be 1, instead of " + str(statusbar.counter) + " as the statusbar.update(...) added one to the count."
     assert statusbar.time_array == [], \
         "Error initializing self.time_array. Should be [], instead of " + str(statusbar.time_array)
-    assert abs(statusbar.start_time - current_time)<1e-4, \
+    assert abs(statusbar.start_time - current_time)<1e-3, \
         "Error initializing self.start_time. Should be " + str(current_time) + ", instead of " + str(statusbar.start_time)
     assert statusbar.time_left == "--", \
         "Error initializing self.time_array. Should be '--', instead of " + str(statusbar.time_left)
