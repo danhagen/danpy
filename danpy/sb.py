@@ -81,7 +81,7 @@ class dsb:
 			self.time_left = '{0:1.1f}'.format(self.time_array[-1]*(N/(i+1)))
 			self.counter += 1
 		elif i == self.bar_indices[self.counter]:
-			self.time_array.append(time.time()-self.start_time)
+			self.time_array.append(abs(time.time()-self.start_time))
 			run_time_func = interpolate.interp1d(
 				np.arange(len(self.time_array)),
 				self.time_array,
@@ -89,7 +89,7 @@ class dsb:
 				)
 			end_time_estimate = run_time_func(len(self.bar_indices)-3)
 			self.time_left = '{0:1.1f}'.format(
-				float(end_time_estimate - (time.time()-self.start_time))
+				float(abs(end_time_estimate - (time.time()-self.start_time)))
 				)
 			self.counter += 1
 		print(" "*(terminal_width-1),end='\r')
