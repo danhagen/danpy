@@ -77,8 +77,8 @@ def test_dsb_automatic_reset():
     assert hasattr(statusbar,'time_left'), "self.time_left not initialized for dsb()"
 
     assert statusbar.bar_indices == test_bar_indices, "Error resetting dsb(). bar_indices should be [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], not " + str(statusbar.bar_indices)
-    assert statusbar.counter == 0, \
-        "Error initializing self.counter for dsb(). Should be 0, instead of " + str(statusbar.counter)
+    assert statusbar.counter == 1, \
+        "Error initializing self.counter for dsb(). Should be 1, instead of " + str(statusbar.counter) + " as the statusbar.update(...) added one to the count."
     assert statusbar.time_array == [], \
         "Error initializing self.time_array. Should be [], instead of " + str(statusbar.time_array)
     assert abs(statusbar.start_time - current_time)<1e-4, \
