@@ -63,9 +63,11 @@ class dsb:
 				self.__init__()
 
 		if self.counter == 0:
-			self.bar_indices = list(
-				set(
-					[int(el) for el in np.linspace(i,N,statusbar_width+1)]
+			self.bar_indices = sorted(
+				list(
+					set(
+						[int(el) for el in np.linspace(i,N,statusbar_width+1)]
+						)
 					)
 				)
 			print(colored(
