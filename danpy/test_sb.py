@@ -1,6 +1,7 @@
 import pytest
 import time
 from unittest.mock import patch, call
+import os
 from .sb import *
 
 def test_double_input():
@@ -19,7 +20,7 @@ def test_dsb__init__():
     assert hasattr(statusbar,'time_array'), "self.time_array not initialized for dsb()"
     assert hasattr(statusbar,'start_time'), "self.start_time not initialized for dsb()"
     assert hasattr(statusbar,'time_left'), "self.time_left not initialized for dsb()"
-    
+
     assert statusbar.counter == 0, \
         "Error initializing self.counter for dsb(). Should be 0, instead of " + str(statusbar.counter)
     assert statusbar.time_array == [], \
@@ -28,3 +29,8 @@ def test_dsb__init__():
         "Error initializing self.start_time. Should be " + str(current_time) + ", instead of " + str(statusbar.start_time)
     assert statusbar.time_left == "--", \
         "Error initializing self.time_array. Should be '--', instead of " + str(statusbar.time_left)
+    del(statusbar,current_time)
+
+def test_get_terminal_width():
+    os.system('resize -s 35 50')
+    assert get_terminal_width() == 50, "Error with get_terminal_width(). Should be 50, instead of " + str(get_terminal_width())
