@@ -3,12 +3,6 @@ from scipy import interpolate
 import numpy as np
 from termcolor import cprint,colored
 
-def print_input(input):
-	print(input)
-
-def double_input(input):
-	return(2*input)
-
 def get_terminal_width():
 	try:
 		from shutil import get_terminal_size
