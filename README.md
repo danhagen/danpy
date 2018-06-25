@@ -1,7 +1,7 @@
 # Collection of useful python functions/features.
 Prepared by: Daniel A Hagen  
 [![Build Status](https://travis-ci.com/danhagen/danpy.svg?branch=master)](https://travis-ci.com/danhagen/danpy)
-[![PEP8](https://img.shields.io/badge/code%20style-pep8-orange.svg)](https://www.python.org/dev/peps/pep-0008/)
+[![PEP8](https://img.shields.io/badge/code%20style-pep8-green.svg)](https://www.python.org/dev/peps/pep-0008/)
 [![Coverage Status](https://coveralls.io/repos/github/danhagen/danpy/badge.svg?branch=master)](https://coveralls.io/github/danhagen/danpy?branch=master)
 
 ## Installation
