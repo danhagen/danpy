@@ -24,10 +24,6 @@ class dsb:
 		starting_value must be an int greater than or equal to zero. Default is zero.
 		"""
 
-		self.time_array = []
-		self.start_time = time.time()
-		self.time_left = '--'
-
 		self.terminal_width = get_terminal_width()
 		used_space = len(
 			'XXXX.X' + '% Complete, ' + 'XXXXX.X '
@@ -46,6 +42,10 @@ class dsb:
 		assert (type(self.number_of_loops) == int
 				and self.number_of_loops>0), \
 			"number_of_loops must be a positvie int."
+
+		self.time_left = '--'
+		self.time_array = []
+		self.start_time = time.time()
 
 	def update(self,i,**kwargs):
 		"""
@@ -207,10 +207,6 @@ class dsb:
 
 		self.__delattr__('bar_indices')
 
-		self.time_array = []
-		self.start_time = time.time()
-		self.time_left = '--'
-
 		assert hasattr(self,"title"), "dsb() has no attr 'title'. dsb() must be initialized before it can be reset."
 		self.title = kwargs.get("title",self.title)
 		assert type(self.title) == str, "title should be a string"
@@ -226,3 +222,7 @@ class dsb:
 		assert (type(self.number_of_loops) == int
 				and self.number_of_loops>0), \
 			"number_of_loops must be a positvie int."
+
+		self.time_left = '--'
+		self.time_array = []
+		self.start_time = time.time()
