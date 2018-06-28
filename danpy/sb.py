@@ -94,8 +94,7 @@ class dsb:
 				)
 		else:
 			if i == self.bar_indices[0]:
-				self.__delattr__('bar_indices')
-				# self.__init__()
+				self.reset()
 				self.bar_indices = sorted(
 					list(
 						set(
@@ -190,7 +189,7 @@ class dsb:
 					)
 				print(" "*(self.terminal_width-1), end='\r')
 				print(self.statusbar, end='\r')
-	def reset(self):
+	def reset(self,**kwargs):
 		"""
 		Resets the statusbar for easy sequential loops. Default settings are best used for consecutive loops of the same size, with the same starting value and the same title. Title, starting value, and number of loops can be changed via **kwargs.
 

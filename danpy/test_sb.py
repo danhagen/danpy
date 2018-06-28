@@ -214,7 +214,7 @@ def test_dsb_automatic_reset():
     current_time = time.time()
     test_bar_indices = [0,1,2,3,4,5,6,7,8,9,10]
 
-    assert hasattr(statusbar,'bar_indices'), "self.bar_indices not initialized for statusbar.update(...) when statusbar.counter == 0."
+    assert hasattr(statusbar,'bar_indices'), "self.bar_indices not initialized for i == statusbar.starting_value."
     assert hasattr(statusbar,'time_array'), "self.time_array not initialized for dsb()"
     assert hasattr(statusbar,'start_time'), "self.start_time not initialized for dsb()"
     assert hasattr(statusbar,'time_left'), "self.time_left not initialized for dsb()"
