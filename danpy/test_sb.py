@@ -227,7 +227,7 @@ def test_dsb_automatic_reset():
     assert statusbar.bar_indices == test_bar_indices, "Error resetting dsb(). bar_indices should be [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], not " + str(statusbar.bar_indices)
     assert statusbar.time_array == [], \
         "Error initializing self.time_array. Should be [], instead of " + str(statusbar.time_array)
-    assert abs(statusbar.start_time - current_time)<1e-3, \
+    assert abs(statusbar.start_time - current_time)<1e-2, \
         "Error initializing self.start_time. Should be " + str(current_time) + ", instead of " + str(statusbar.start_time)
     assert statusbar.time_left == "--", \
         "Error initializing self.time_array. Should be '--', instead of " + str(statusbar.time_left)
