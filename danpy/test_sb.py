@@ -6,11 +6,12 @@ import subprocess
 from .sb import *
 
 def test_dsb__init__default():
+    initial_value = 0
     final_value = 10
     used_space = len(
         'XXXX.X' + '% Complete, ' + 'XXXXX.X '
         + ' sec, (est. ' + "XXXXX.X" + ' sec left)')
-    statusbar = dsb(final_value)
+    statusbar = dsb(initial_value,final_value)
     current_time = time.time()
 
     assert hasattr(statusbar,'time_array'), "self.time_array not initialized for dsb()"
@@ -47,16 +48,20 @@ def test_dsb__init__default():
         + ", instead of "
         + str(statusbar.final_value))
 
-    del(statusbar,current_time,final_value,used_space)
+    del(statusbar,
+        current_time,
+        initial_value,
+        final_value,
+        used_space)
 
 def test_dsb__init__kwargs():
+    initial_value = 0
     final_value = 10
-    initial_value = 1
     title = "Test"
     used_space = len(
         'XXXX.X' + '% Complete, ' + 'XXXXX.X '
         + ' sec, (est. ' + "XXXXX.X" + ' sec left)')
-    statusbar = dsb(final_value,title=title,initial_value=initial_value)
+    statusbar = dsb(initial_value,final_value,title=title)
     current_time = time.time()
 
     assert hasattr(statusbar,'time_array'), "self.time_array not initialized for dsb()"
@@ -110,8 +115,9 @@ def test_get_terminal_width():
     assert int(subprocess.check_output(["tput","cols"])) == 80, "Error with get_terminal_width() ImportError mode. The value of int(subprocess.check_output(['tput','cols'])) should be 80 (default pytest terminal size), instead of " + str(int(subprocess.check_output(["tput","cols"])))
 
 def test_dsb_reset_default():
+    initial_value = 0
     final_value = 10
-    statusbar = dsb(final_value)
+    statusbar = dsb(initial_value,final_value)
     for i in range(final_value):
         time.sleep(0.1)
         statusbar.update(i)
@@ -146,21 +152,22 @@ def test_dsb_reset_default():
         + ", instead of "
         + str(statusbar.final_value))
 
-    del(statusbar,current_time,final_value)
+    del(statusbar,current_time,initial_value,final_value)
 
 def test_dsb_reset_kwargs():
+    initial_value = 0
     final_value = 10
+    a_different_initial_value = 5
     a_different_final_value = 20
     a_different_title = "Test"
-    a_different_initial_value = 1
 
-    statusbar = dsb(final_value)
+    statusbar = dsb(initial_value,final_value)
     for i in range(final_value):
         time.sleep(0.1)
         statusbar.update(i)
     statusbar.reset(
-        final_value=a_different_final_value,
         initial_value=a_different_initial_value,
+        final_value=a_different_final_value,
         title=a_different_title)
     current_time = time.time()
 
@@ -199,14 +206,16 @@ def test_dsb_reset_kwargs():
 
     del(statusbar,
         current_time,
+        initial_value,
         final_value,
         a_different_title,
         a_different_initial_value,
         a_different_final_value)
 
 def test_dsb_automatic_reset():
+    initial_value = 0
     final_value = 10
-    statusbar = dsb(final_value)
+    statusbar = dsb(initial_value,final_value)
     for i in range(final_value):
         time.sleep(0.1)
         statusbar.update(i)
@@ -243,4 +252,6 @@ def test_dsb_automatic_reset():
         + str(statusbar.final_value))
     del(statusbar,
         current_time,
+        initial_value,
+        final_value,
         test_bar_indices)

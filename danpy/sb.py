@@ -12,7 +12,7 @@ def get_terminal_width():
 		return int(subprocess.check_output(["tput", "cols"]))
 
 class dsb:
-	def __init__(self,final_value,**kwargs):
+	def __init__(self,initial_value,final_value,**kwargs):
 		"""
 		~~~~~~~~~~~~~~
 		**kwargs
@@ -21,7 +21,6 @@ class dsb:
 		title should be a str that will be displayed before the statusbar. title
 		should be no longer than 25 characters.
 
-		initial_value must be an int greater than or equal to zero. Default is zero.
 		"""
 
 		self.terminal_width = get_terminal_width()
@@ -33,7 +32,7 @@ class dsb:
 		self.title = kwargs.get("title",'a Loop')
 		assert type(self.title) == str, "title should be a string"
 
-		self.initial_value = kwargs.get("initial_value",0)
+		self.initial_value = initial_value
 		assert (type(self.initial_value) == int
 				and self.initial_value>=0), \
 			"initial_value must be a positvie int or 0."
@@ -50,7 +49,6 @@ class dsb:
 	def update(self,i,**kwargs):
 		"""
 		i is the current iteration (must be an int) and must be in [0,N).
-
 
 		~~~~~~~~~~~~~~
 
