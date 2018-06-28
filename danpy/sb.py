@@ -12,22 +12,45 @@ def get_terminal_width():
 		return int(subprocess.check_output(["tput", "cols"]))
 
 class dsb:
-	def __init__(self):
-		self.counter = 0
-		self.time_array = []
-		self.start_time = time.time()
-		self.time_left = '--'
-	def update(self,i,N,**kwargs):
+	def __init__(self,number_of_loops,**kwargs):
 		"""
-		i is the current iteration (must be an int) and N is the length of
-		the range (must be an int). i must also be in [0,N).
-
 		~~~~~~~~~~~~~~
 		**kwargs
 		~~~~~~~~~~~~~~
 
 		title should be a str that will be displayed before the statusbar. title
 		should be no longer than 25 characters.
+
+		starting_value must be an int greater than or equal to zero. Default is zero.
+		"""
+		self.counter = 0
+		self.time_array = []
+		self.start_time = time.time()
+		self.time_left = '--'
+
+		self.terminal_width = get_terminal_width()
+		used_space = len(
+			'XXXX.X' + '% Complete, ' + 'XXXXX.X '
+			+ ' sec, (est. ' + "XXXXX.X" + ' sec left)')
+		self.statusbar_width = self.terminal_width - 2 - used_space
+
+		self.title = kwargs.get("title",'a Loop')
+		assert type(self.title) == str, "title should be a string"
+
+		self.starting_value = kwargs.get("starting_value",0)
+		assert (type(self.starting_value) == int
+				and self.starting_value>=0), \
+			"starting_value must be a positvie int or 0."
+
+		self.number_of_loops = number_of_loops
+		assert (type(self.number_of_loops) == int
+				and self.number_of_loops>0), \
+			"number_of_loops must be a positvie int."
+
+	def update(self,i):
+		"""
+		i is the current iteration (must be an int) and must be in [0,N).
+
 
 		~~~~~~~~~~~~~~
 
@@ -36,51 +59,84 @@ class dsb:
 
 		"""
 
-		terminal_width = get_terminal_width()
-		used_space = len(
-			'XXXX.X' + '% Complete, ' + 'XXXXX.X '
-			+ ' sec, (est. ' + "XXXXX.X" + ' sec left)')
-		statusbar_width = terminal_width - 2 - used_space
-
-		title = kwargs.get("title",'Function')
-		assert type(title) == str, "title should be a string"
-
 		assert type(i)==int, "i must be an int"
-		assert type(N)==int, "N must be an int"
-		assert N>i, "N must be greater than i"
-		assert N>0, "N must be a positive integer"
-		assert i>=0, "i must not be negative (can be zero)"
+		assert self.starting_value<=i<self.number_of_loops, \
+			("i must be greater than or equal to "
+			+ str(self.starting_value)
+			+ " but less than "
+			+ str(self.number_of_loops)
+			)
 
-		statusbar = colored(
-			('['
-			+ '\u25a0'*int((i+1)/(N/statusbar_width)) \
-			+ '\u25a1'*(statusbar_width-int((i+1)/(N/statusbar_width)))
-			+ '] '
-			), 'white',attrs=['bold'])
-		if hasattr(self,'bar_indices'):
-			if i == self.bar_indices[0]:
-				self.__delattr__('bar_indices')
-				self.__init__()
-
-		if self.counter == 0:
+		if not hasattr(self,"bar_indices"):
 			self.bar_indices = sorted(
 				list(
 					set(
-						[int(el) for el in np.linspace(i,N,statusbar_width+1)]
+						[int(el) for el in np.linspace(	self.starting_value,
+														self.number_of_loops,
+														self.statusbar_width+1)]
 						)
 					)
 				)
+			self.percentage_indices = sorted(
+				list(
+					set(
+						[int(el) for el in np.linspace(	self.starting_value,
+														self.number_of_loops,
+														1001)]
+						)
+					)
+				)
+		else:
+			if i == self.bar_indices[0]:
+				self.__delattr__('bar_indices')
+				# self.__init__()
+				self.bar_indices = sorted(
+					list(
+						set(
+							[int(el) for el in np.linspace(	self.starting_value,
+															self.number_of_loops,
+															self.statusbar_width+1)]
+							)
+						)
+					)
+				self.percentage_indices = sorted(
+					list(
+						set(
+							[int(el) for el in np.linspace(	self.starting_value,
+															self.number_of_loops,
+															1001)]
+							)
+						)
+					)
+
+		if i == self.starting_value:
 			print(colored(
 				(">>> Running "
-				+ title
+				+ self.title
 				+ " <<<"
 				),'blue',attrs=['bold']))
-			self.counter += 1
-		elif i==self.bar_indices[1] and self.counter == 1:
+			self.statusbar_string = colored((
+				'['
+				+ '\u25a0'*int((i+1)/(self.number_of_loops/self.statusbar_width)) \
+				+ '\u25a1'*(self.statusbar_width-int((i+1)/(self.number_of_loops/self.statusbar_width)))
+				+ '] '
+				), 'white',attrs=['bold'])
+		elif i == self.bar_indices[1]:
+			self.statusbar_string = colored((
+				'['
+				+ '\u25a0'*int((i+1)/(self.number_of_loops/self.statusbar_width)) \
+				+ '\u25a1'*(self.statusbar_width-int((i+1)/(self.number_of_loops/self.statusbar_width)))
+				+ '] '
+				), 'white',attrs=['bold'])
 			self.time_array.append(abs(time.time()-self.start_time))
-			self.time_left = '{0:1.1f}'.format(self.time_array[-1]*(N/(i+1)))
-			self.counter += 1
-		elif i == self.bar_indices[self.counter]:
+			self.time_left = '{0:1.1f}'.format(self.time_array[-1]*(self.number_of_loops/(i+1)))
+		elif i+1 in self.bar_indices[2:]:
+			self.statusbar_string = colored((
+				'['
+				+ '\u25a0'*int((i+1)/(self.number_of_loops/self.statusbar_width)) \
+				+ '\u25a1'*(self.statusbar_width-int((i+1)/(self.number_of_loops/self.statusbar_width)))
+				+ '] '
+				), 'white',attrs=['bold'])
 			self.time_array.append(abs(time.time()-self.start_time))
 			run_time_func = interpolate.interp1d(
 				np.arange(len(self.time_array)),
@@ -91,35 +147,43 @@ class dsb:
 			self.time_left = '{0:1.1f}'.format(
 				float(abs(end_time_estimate - (time.time()-self.start_time)))
 				)
-			self.counter += 1
-		print(" "*(terminal_width-1),end='\r')
-		print(
-			(statusbar
-			+ colored('{0:1.1f}'.format((i+1)/N*100) + '% complete, ','blue') + colored(
-				('{0:1.1f}'.format(time.time() - self.start_time)
-				+ ' sec,'
-				),
-				'red')
-			+ colored(' (est. ' + self.time_left + ' sec left)','white')
-			), \
-			end='\r')
-		if i == N-1:
-			print(" "*terminal_width)
-			print(
-				statusbar
-				+ colored(
-					('{0:1.1f}'.format((i+1)/N*100)
-					+ '% complete, '
-					),
-					'blue')
-				+ colored(
-					('(Total Run Time: '
-					+ '{0:1.1f}'.format(time.time() - self.start_time)
-					+ ' sec)'
-					),
-					'green')
-				)
-			print('\n')
+
+		if i+1 in self.percentage_indices:
+			if i+1 == self.percentage_indices[-1]:
+				self.statusbar = (
+					self.statusbar_string
+					+ colored(
+						('{0:1.1f}'.format((i+1)/self.number_of_loops*100)
+						+ '% complete, '
+						),'blue')
+					+ colored(
+						('(Total Run Time: '
+						+ '{0:1.1f}'.format(time.time() - self.start_time)
+						+ ' sec)'
+						),'green')
+					+ '\n'
+					)
+				print(" "*(self.terminal_width-1), end='\r')
+				print(self.statusbar + '\n', end='\r')
+			else:
+				self.statusbar = (
+					self.statusbar_string
+					+ colored((
+						'{0:1.1f}'.format((i+1)/self.number_of_loops*100)
+						+ '% complete, '
+						),'blue')
+					+ colored((
+						'{0:1.1f}'.format(time.time() - self.start_time)
+						+ ' sec,'
+						),'red')
+					+ colored((
+						' (est. '
+						+ self.time_left
+						+ ' sec left)'
+						),'white')
+					)
+				print(" "*(self.terminal_width-1), end='\r')
+				print(self.statusbar, end='\r')
 	def reset(self):
 		self.__delattr__('bar_indices')
 		self.__init__()
