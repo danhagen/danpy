@@ -23,7 +23,7 @@ class dsb:
 
 		starting_value must be an int greater than or equal to zero. Default is zero.
 		"""
-		self.counter = 0
+
 		self.time_array = []
 		self.start_time = time.time()
 		self.time_left = '--'
@@ -47,7 +47,7 @@ class dsb:
 				and self.number_of_loops>0), \
 			"number_of_loops must be a positvie int."
 
-	def update(self,i):
+	def update(self,i,**kwargs):
 		"""
 		i is the current iteration (must be an int) and must be in [0,N).
 
@@ -58,7 +58,13 @@ class dsb:
 		begin printing on the next line.
 
 		"""
-
+		if not hasattr(self,"title"):
+			self.title = kwargs.get("title","a Loop")
+			assert type(self.title) == str, "title should be a string"
+		else:
+			previous_title = self.title
+			self.title = kwargs.get("title",previous_title)
+			assert type(self.title) == str, "title should be a string"
 		assert type(i)==int, "i must be an int"
 		assert self.starting_value<=i<self.number_of_loops, \
 			("i must be greater than or equal to "
@@ -185,5 +191,39 @@ class dsb:
 				print(" "*(self.terminal_width-1), end='\r')
 				print(self.statusbar, end='\r')
 	def reset(self):
+		"""
+		Resets the statusbar for easy sequential loops. Default settings are best used for consecutive loops of the same size, with the same starting value and the same title. Title, starting value, and number of loops can be changed via **kwargs.
+
+		~~~~~~~~~~~~~~
+		**kwargs
+		~~~~~~~~~~~~~~
+
+		title should be a str that will be displayed before the statusbar. title
+		should be no longer than 25 characters. Default will be the previous title.
+
+		starting_value must be an int greater than or equal to zero. Default is the previous starting_value.
+
+		number_of_loops must be a positive int. Default is the previous number_of_loops.
+		"""
+
 		self.__delattr__('bar_indices')
-		self.__init__()
+
+		self.time_array = []
+		self.start_time = time.time()
+		self.time_left = '--'
+
+		assert hasattr(self,"title"), "dsb() has no attr 'title'. dsb() must be initialized before it can be reset."
+		self.title = kwargs.get("title",self.title)
+		assert type(self.title) == str, "title should be a string"
+
+		assert hasattr(self,"starting_value"), "dsb() has no attr 'starting_value'. dsb() must be initialized before it can be reset."
+		self.starting_value = kwargs.get("starting_value",self.starting_value)
+		assert (type(self.starting_value) == int
+				and self.starting_value>=0), \
+			"starting_value must be a positvie int or 0."
+
+		assert hasattr(self,"number_of_loops"), "dsb() has no attr 'number_of_loops'. dsb() must be initialized before it can be reset."
+		self.number_of_loops = kwargs.get('number_of_loops',self.number_of_loops)
+		assert (type(self.number_of_loops) == int
+				and self.number_of_loops>0), \
+			"number_of_loops must be a positvie int."
