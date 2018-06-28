@@ -58,13 +58,10 @@ class dsb:
 		begin printing on the next line.
 
 		"""
-		if not hasattr(self,"title"):
-			self.title = kwargs.get("title","a Loop")
-			assert type(self.title) == str, "title should be a string"
-		else:
-			previous_title = self.title
-			self.title = kwargs.get("title",previous_title)
-			assert type(self.title) == str, "title should be a string"
+		assert hasattr(self,"title"), "dsb() was not properly initialized. Does not have title."
+		self.title = kwargs.get("title",self.title)
+		assert type(self.title) == str, "title should be a string"
+
 		assert type(i)==int, "i must be an int"
 		assert self.starting_value<=i<self.number_of_loops, \
 			("i must be greater than or equal to "
