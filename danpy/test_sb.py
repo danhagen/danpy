@@ -56,7 +56,7 @@ def test_dsb__init__kwargs():
     used_space = len(
         'XXXX.X' + '% Complete, ' + 'XXXXX.X '
         + ' sec, (est. ' + "XXXXX.X" + ' sec left)')
-    statusbar = dsb(number_of_loops,title=test,starting_value=starting_value)
+    statusbar = dsb(number_of_loops,title=title,starting_value=starting_value)
     current_time = time.time()
 
     assert hasattr(statusbar,'time_array'), "self.time_array not initialized for dsb()"
@@ -112,9 +112,9 @@ def test_get_terminal_width():
 def test_dsb_reset_default():
     number_of_loops = 10
     statusbar = dsb(number_of_loops)
-    for i in range(10):
+    for i in range(number_of_loops):
         time.sleep(0.1)
-        statusbar.update(i,10)
+        statusbar.update(i)
     statusbar.reset()
     current_time = time.time()
 
@@ -155,9 +155,9 @@ def test_dsb_reset_kwargs():
     a_different_starting_value = 1
 
     statusbar = dsb(number_of_loops)
-    for i in range(10):
+    for i in range(number_of_loops):
         time.sleep(0.1)
-        statusbar.update(i,10)
+        statusbar.update(i)
     statusbar.reset(
         number_of_loops=a_different_number_of_loops,
         starting_value=a_different_starting_value,
@@ -206,7 +206,7 @@ def test_dsb_reset_kwargs():
 
 def test_dsb_automatic_reset():
     number_of_loops = 10
-    statusbar = dsb()
+    statusbar = dsb(number_of_loops)
     for i in range(number_of_loops):
         time.sleep(0.1)
         statusbar.update(i)
