@@ -6,11 +6,11 @@ import subprocess
 from .sb import *
 
 def test_dsb__init__default():
-    number_of_loops = 10
+    final_value = 10
     used_space = len(
         'XXXX.X' + '% Complete, ' + 'XXXXX.X '
         + ' sec, (est. ' + "XXXXX.X" + ' sec left)')
-    statusbar = dsb(number_of_loops)
+    statusbar = dsb(final_value)
     current_time = time.time()
 
     assert hasattr(statusbar,'time_array'), "self.time_array not initialized for dsb()"
@@ -19,8 +19,8 @@ def test_dsb__init__default():
     assert hasattr(statusbar,'terminal_width'), "self.terminal_width not initialized for dsb()"
     assert hasattr(statusbar,'statusbar_width'), "self.statusbar_width not initialized for dsb()"
     assert hasattr(statusbar,'title'), "self.title not initialized for dsb()"
-    assert hasattr(statusbar,'starting_value'), "self.starting_value not initialized for dsb()"
-    assert hasattr(statusbar,'number_of_loops'), "self.number_of_loops not initialized for dsb()"
+    assert hasattr(statusbar,'initial_value'), "self.initial_value not initialized for dsb()"
+    assert hasattr(statusbar,'final_value'), "self.final_value not initialized for dsb()"
 
     assert statusbar.time_array == [], \
         "Error initializing self.time_array. Should be [], instead of " + str(statusbar.time_array)
@@ -38,25 +38,25 @@ def test_dsb__init__default():
         + str(statusbar.statusbar_width))
     assert statusbar.title == "a Loop", \
         "Error initializing self.title. Should be 'a Loop', instead of " + str(statusbar.title)
-    assert statusbar.starting_value == 0, \
-        ("Error initializing self.starting_value. Should be 0, instead of "
-        + str(statusbar.starting_value))
-    assert statusbar.number_of_loops == number_of_loops, \
-        ("Error initializing self.number_of_loops. Should be "
-        + str(number_of_loops)
+    assert statusbar.initial_value == 0, \
+        ("Error initializing self.initial_value. Should be 0, instead of "
+        + str(statusbar.initial_value))
+    assert statusbar.final_value == final_value, \
+        ("Error initializing self.final_value. Should be "
+        + str(final_value)
         + ", instead of "
-        + str(statusbar.number_of_loops))
+        + str(statusbar.final_value))
 
-    del(statusbar,current_time,number_of_loops,used_space)
+    del(statusbar,current_time,final_value,used_space)
 
 def test_dsb__init__kwargs():
-    number_of_loops = 10
-    starting_value = 1
+    final_value = 10
+    initial_value = 1
     title = "Test"
     used_space = len(
         'XXXX.X' + '% Complete, ' + 'XXXXX.X '
         + ' sec, (est. ' + "XXXXX.X" + ' sec left)')
-    statusbar = dsb(number_of_loops,title=title,starting_value=starting_value)
+    statusbar = dsb(final_value,title=title,initial_value=initial_value)
     current_time = time.time()
 
     assert hasattr(statusbar,'time_array'), "self.time_array not initialized for dsb()"
@@ -65,8 +65,8 @@ def test_dsb__init__kwargs():
     assert hasattr(statusbar,'terminal_width'), "self.terminal_width not initialized for dsb()"
     assert hasattr(statusbar,'statusbar_width'), "self.statusbar_width not initialized for dsb()"
     assert hasattr(statusbar,'title'), "self.title not initialized for dsb()"
-    assert hasattr(statusbar,'starting_value'), "self.starting_value not initialized for dsb()"
-    assert hasattr(statusbar,'number_of_loops'), "self.number_of_loops not initialized for dsb()"
+    assert hasattr(statusbar,'initial_value'), "self.initial_value not initialized for dsb()"
+    assert hasattr(statusbar,'final_value'), "self.final_value not initialized for dsb()"
 
     assert statusbar.time_array == [], \
         "Error initializing self.time_array. Should be [], instead of " + str(statusbar.time_array)
@@ -87,22 +87,22 @@ def test_dsb__init__kwargs():
         + title
         + ", instead of "
         + str(statusbar.title))
-    assert statusbar.starting_value == starting_value, \
-        ("Error initializing self.starting_value. Should be "
-        + str(starting_value)
+    assert statusbar.initial_value == initial_value, \
+        ("Error initializing self.initial_value. Should be "
+        + str(initial_value)
         + ", instead of "
-        + str(statusbar.starting_value))
-    assert statusbar.number_of_loops == number_of_loops, \
-        ("Error initializing self.number_of_loops. Should be "
-        + str(number_of_loops)
+        + str(statusbar.initial_value))
+    assert statusbar.final_value == final_value, \
+        ("Error initializing self.final_value. Should be "
+        + str(final_value)
         + ", instead of "
-        + str(statusbar.number_of_loops))
+        + str(statusbar.final_value))
 
     del(statusbar,
         current_time,
-        number_of_loops,
+        final_value,
         used_space,
-        starting_value,
+        initial_value,
         title)
 
 def test_get_terminal_width():
@@ -110,9 +110,9 @@ def test_get_terminal_width():
     assert int(subprocess.check_output(["tput","cols"])) == 80, "Error with get_terminal_width() ImportError mode. The value of int(subprocess.check_output(['tput','cols'])) should be 80 (default pytest terminal size), instead of " + str(int(subprocess.check_output(["tput","cols"])))
 
 def test_dsb_reset_default():
-    number_of_loops = 10
-    statusbar = dsb(number_of_loops)
-    for i in range(number_of_loops):
+    final_value = 10
+    statusbar = dsb(final_value)
+    for i in range(final_value):
         time.sleep(0.1)
         statusbar.update(i)
     statusbar.reset()
@@ -126,8 +126,8 @@ def test_dsb_reset_default():
     assert hasattr(statusbar,'terminal_width'), "self.terminal_width not initialized for dsb()"
     assert hasattr(statusbar,'statusbar_width'), "self.statusbar_width not initialized for dsb()"
     assert hasattr(statusbar,'title'), "self.title not initialized for dsb()"
-    assert hasattr(statusbar,'starting_value'), "self.starting_value not initialized for dsb()"
-    assert hasattr(statusbar,'number_of_loops'), "self.number_of_loops not initialized for dsb()"
+    assert hasattr(statusbar,'initial_value'), "self.initial_value not initialized for dsb()"
+    assert hasattr(statusbar,'final_value'), "self.final_value not initialized for dsb()"
 
     assert statusbar.time_array == [], \
         "Error initializing self.time_array. Should be [], instead of " + str(statusbar.time_array)
@@ -137,30 +137,30 @@ def test_dsb_reset_default():
         "Error initializing self.time_array. Should be '--', instead of " + str(statusbar.time_left)
     assert statusbar.title == "a Loop", \
         "Error initializing self.title. Default should be 'a Loop', instead of " + str(statusbar.title)
-    assert statusbar.starting_value == 0, \
-        ("Error initializing self.starting_value. Should be 0, instead of "
-        + str(statusbar.starting_value))
-    assert statusbar.number_of_loops == number_of_loops, \
-        ("Error initializing self.number_of_loops. Should be "
-        + str(number_of_loops)
+    assert statusbar.initial_value == 0, \
+        ("Error initializing self.initial_value. Should be 0, instead of "
+        + str(statusbar.initial_value))
+    assert statusbar.final_value == final_value, \
+        ("Error initializing self.final_value. Should be "
+        + str(final_value)
         + ", instead of "
-        + str(statusbar.number_of_loops))
+        + str(statusbar.final_value))
 
-    del(statusbar,current_time,number_of_loops)
+    del(statusbar,current_time,final_value)
 
 def test_dsb_reset_kwargs():
-    number_of_loops = 10
-    a_different_number_of_loops = 20
+    final_value = 10
+    a_different_final_value = 20
     a_different_title = "Test"
-    a_different_starting_value = 1
+    a_different_initial_value = 1
 
-    statusbar = dsb(number_of_loops)
-    for i in range(number_of_loops):
+    statusbar = dsb(final_value)
+    for i in range(final_value):
         time.sleep(0.1)
         statusbar.update(i)
     statusbar.reset(
-        number_of_loops=a_different_number_of_loops,
-        starting_value=a_different_starting_value,
+        final_value=a_different_final_value,
+        initial_value=a_different_initial_value,
         title=a_different_title)
     current_time = time.time()
 
@@ -172,8 +172,8 @@ def test_dsb_reset_kwargs():
     assert hasattr(statusbar,'terminal_width'), "self.terminal_width not initialized for dsb()"
     assert hasattr(statusbar,'statusbar_width'), "self.statusbar_width not initialized for dsb()"
     assert hasattr(statusbar,'title'), "self.title not initialized for dsb()"
-    assert hasattr(statusbar,'starting_value'), "self.starting_value not initialized for dsb()"
-    assert hasattr(statusbar,'number_of_loops'), "self.number_of_loops not initialized for dsb()"
+    assert hasattr(statusbar,'initial_value'), "self.initial_value not initialized for dsb()"
+    assert hasattr(statusbar,'final_value'), "self.final_value not initialized for dsb()"
 
     assert statusbar.time_array == [], \
         "Error initializing self.time_array. Should be [], instead of " + str(statusbar.time_array)
@@ -186,43 +186,43 @@ def test_dsb_reset_kwargs():
         + a_different_title
         +", instead of "
         + str(statusbar.title))
-    assert statusbar.starting_value == a_different_starting_value, \
-        ("Error initializing self.starting_value. Should be "
-        + str(a_different_starting_value)
+    assert statusbar.initial_value == a_different_initial_value, \
+        ("Error initializing self.initial_value. Should be "
+        + str(a_different_initial_value)
         + ", instead of "
-        + str(statusbar.starting_value))
-    assert statusbar.number_of_loops == a_different_number_of_loops, \
-        ("Error initializing self.number_of_loops. Should be "
-        + str(a_different_number_of_loops)
+        + str(statusbar.initial_value))
+    assert statusbar.final_value == a_different_final_value, \
+        ("Error initializing self.final_value. Should be "
+        + str(a_different_final_value)
         + ", instead of "
-        + str(statusbar.number_of_loops))
+        + str(statusbar.final_value))
 
     del(statusbar,
         current_time,
-        number_of_loops,
+        final_value,
         a_different_title,
-        a_different_starting_value,
-        a_different_number_of_loops)
+        a_different_initial_value,
+        a_different_final_value)
 
 def test_dsb_automatic_reset():
-    number_of_loops = 10
-    statusbar = dsb(number_of_loops)
-    for i in range(number_of_loops):
+    final_value = 10
+    statusbar = dsb(final_value)
+    for i in range(final_value):
         time.sleep(0.1)
         statusbar.update(i)
     statusbar.update(0)
     current_time = time.time()
     test_bar_indices = [0,1,2,3,4,5,6,7,8,9,10]
 
-    assert hasattr(statusbar,'bar_indices'), "self.bar_indices not initialized for i == statusbar.starting_value."
+    assert hasattr(statusbar,'bar_indices'), "self.bar_indices not initialized for i == statusbar.initial_value."
     assert hasattr(statusbar,'time_array'), "self.time_array not initialized for dsb()"
     assert hasattr(statusbar,'start_time'), "self.start_time not initialized for dsb()"
     assert hasattr(statusbar,'time_left'), "self.time_left not initialized for dsb()"
     assert hasattr(statusbar,'terminal_width'), "self.terminal_width not initialized for dsb()"
     assert hasattr(statusbar,'statusbar_width'), "self.statusbar_width not initialized for dsb()"
     assert hasattr(statusbar,'title'), "self.title not initialized for dsb()"
-    assert hasattr(statusbar,'starting_value'), "self.starting_value not initialized for dsb()"
-    assert hasattr(statusbar,'number_of_loops'), "self.number_of_loops not initialized for dsb()"
+    assert hasattr(statusbar,'initial_value'), "self.initial_value not initialized for dsb()"
+    assert hasattr(statusbar,'final_value'), "self.final_value not initialized for dsb()"
 
     assert statusbar.bar_indices == test_bar_indices, "Error resetting dsb(). bar_indices should be [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], not " + str(statusbar.bar_indices)
     assert statusbar.time_array == [], \
@@ -233,14 +233,14 @@ def test_dsb_automatic_reset():
         "Error initializing self.time_array. Should be '--', instead of " + str(statusbar.time_left)
     assert statusbar.title == "a Loop", \
         "Error initializing self.title. Default should be 'a Loop', instead of " + str(statusbar.title)
-    assert statusbar.starting_value == 0, \
-        ("Error initializing self.starting_value. Should be 0, instead of "
-        + str(statusbar.starting_value))
-    assert statusbar.number_of_loops == number_of_loops, \
-        ("Error initializing self.number_of_loops. Should be "
-        + str(number_of_loops)
+    assert statusbar.initial_value == 0, \
+        ("Error initializing self.initial_value. Should be 0, instead of "
+        + str(statusbar.initial_value))
+    assert statusbar.final_value == final_value, \
+        ("Error initializing self.final_value. Should be "
+        + str(final_value)
         + ", instead of "
-        + str(statusbar.number_of_loops))
+        + str(statusbar.final_value))
     del(statusbar,
         current_time,
         test_bar_indices)
