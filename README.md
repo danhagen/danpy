@@ -63,7 +63,7 @@ for i in range(number_of_loops):
   statusbar.update(i,title="a Different Loop")
 ```
 
-However, these automatic reset features will only work if the length of each loop is the same *and* they have the same starting value. If you wish to run consecutive loops with *different* starting values or loop lengths, then you can `reset` the statusbar.
+However, these automatic reset features will only work if the length of each loop is the same *and* they have the same starting value. If you wish to run consecutive loops with *different* starting values or loop lengths, then you can `reset` the statusbar. It should be noted that the automatic reset, although convenient, will initialize the `start_time` after the first iteration of the loop. Therefore it is not the most accurate representation of runtime. We recommend a hard reset between trials or a redefinition of the statusbar before each loop. 
 
 ### Resetting Statusbar
 
