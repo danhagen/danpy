@@ -44,7 +44,7 @@ final_value = 10
 number_of_outside_loops = 3
 statusbar = dsb(initial_value,final_value,title="Loop-D-Loops")
 for j in range(number_of_outside_loops):
-  for i in range(number_of_inside_loops):
+  for i in range(final_value):
     sleep(0.5)
     statusbar.update(i)
 ```
