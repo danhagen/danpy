@@ -104,7 +104,7 @@ from time import sleep
 count = 0
 final_count = 10
 statusbar = dsb(count,final_count,title="a while Loop")
-while count<final_value:
+while count<final_count:
   sleep(0.5)
   statusbar.update(count)
   count+=1
