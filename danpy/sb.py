@@ -199,6 +199,10 @@ class dsb:
 				print(" "*(self.terminal_width-1), end='\r')
 				print(self.statusbar + '\n', end='\r')
 			else:
+				if not hasattr(self,"statusbar"):
+					previous_length = self.terminal_width-1
+				else:
+					previous_length = len(self.statusbar)
 				self.statusbar = (
 					self.statusbar_string
 					+ colored((
@@ -215,7 +219,8 @@ class dsb:
 						+ ' sec left)'
 						),'white')
 					)
-				print(" "*(self.terminal_width-1), end='\r')
+				if previous_length > len(self.statusbar):
+					print(" "*(self.terminal_width-1), end='\r')
 				print(self.statusbar, end='\r')
 	def reset(self,**kwargs):
 		"""
