@@ -12,7 +12,7 @@ def get_terminal_width():
 		return int(subprocess.check_output(["tput", "cols"]))
 
 class dsb:
-	def __init__(self,initial_value,final_value,**kwargs):
+	def __init__(self,initialValue,finalValue,**kwargs):
 		"""
 		~~~~~~~~~~~~~~
 		**kwargs
@@ -23,28 +23,28 @@ class dsb:
 
 		"""
 
-		self.terminal_width = get_terminal_width()
-		used_space = len(
+		self.terminalWidth = get_terminal_width()
+		usedSpace = len(
 			'XXXX.X' + '% Complete, ' + 'XXXXX.X '
 			+ ' sec, (est. ' + "XXXXX.X" + ' sec left)')
-		self.statusbar_width = self.terminal_width - 2 - used_space
+		self.statusbarWidth = self.terminalWidth - 2 - usedSpace
 
 		self.title = kwargs.get("title",'a Loop')
 		assert type(self.title) == str, "title should be a string"
 
-		self.initial_value = initial_value
-		assert (type(self.initial_value) == int
-				and self.initial_value>=0), \
-			"initial_value must be a positvie int or 0."
+		self.initialValue = initialValue
+		assert (type(self.initialValue) == int
+				and self.initialValue>=0), \
+			"initialValue must be a positvie int or 0."
 
-		self.final_value = final_value
-		assert (type(self.final_value) == int
-				and self.final_value>0), \
-			"final_value must be a positvie int."
+		self.finalValue = finalValue
+		assert (type(self.finalValue) == int
+				and self.finalValue>0), \
+			"finalValue must be a positvie int."
 
-		self.time_left = '--'
-		self.time_array = []
-		self.start_time = time.time()
+		self.timeRemaining = '--'
+		self.timeArray = []
+		self.startTime = time.time()
 
 	def update(self,i,**kwargs):
 		"""
@@ -61,166 +61,166 @@ class dsb:
 		assert type(self.title) == str, "title should be a string"
 
 		assert type(i)==int, "i must be an int"
-		assert self.initial_value<=i<self.final_value, \
+		assert self.initialValue<=i<self.finalValue, \
 			("i must be greater than or equal to "
-			+ str(self.initial_value)
+			+ str(self.initialValue)
 			+ " but less than "
-			+ str(self.final_value)
+			+ str(self.finalValue)
 			)
 
-		if not hasattr(self,"bar_indices"):
-			self.bar_indices = sorted(
+		if not hasattr(self,"barIndices"):
+			self.barIndices = sorted(
 				list(
 					set(
-						[int(el) for el in np.linspace(	self.initial_value,
-														self.final_value,
-														self.statusbar_width+1)]
+						[int(el) for el in np.linspace(	self.initialValue,
+														self.finalValue,
+														self.statusbarWidth+1)]
 						)
 					)
 				)
-			self.percentage_indices = sorted(
+			self.percentageIndices = sorted(
 				list(
 					set(
-						[int(el) for el in np.linspace(	self.initial_value,
-														self.final_value,
+						[int(el) for el in np.linspace(	self.initialValue,
+														self.finalValue,
 														1001)]
 						)
 					)
 				)
 		else:
-			if i == self.bar_indices[0]:
+			if i == self.barIndices[0]:
 				self.reset()
-				self.bar_indices = sorted(
+				self.barIndices = sorted(
 					list(
 						set(
-							[int(el) for el in np.linspace(	self.initial_value,
-															self.final_value,
-															self.statusbar_width+1)]
+							[int(el) for el in np.linspace(	self.initialValue,
+															self.finalValue,
+															self.statusbarWidth+1)]
 							)
 						)
 					)
-				self.percentage_indices = sorted(
+				self.percentageIndices = sorted(
 					list(
 						set(
-							[int(el) for el in np.linspace(	self.initial_value,
-															self.final_value,
+							[int(el) for el in np.linspace(	self.initialValue,
+															self.finalValue,
 															1001)]
 							)
 						)
 					)
 
-		if i == self.initial_value:
+		if i == self.initialValue:
 			print(colored(
 				(">>> Running "
 				+ self.title
 				+ " <<<"
 				),'blue',attrs=['bold']))
-			self.statusbar_string = colored((
+			self.statusbarString = colored((
 				'['
 				+ '\u25a0'
 					*int(
-						(i-self.initial_value+1)
-						/((self.final_value-self.initial_value)/self.statusbar_width)
+						(i-self.initialValue+1)
+						/((self.finalValue-self.initialValue)/self.statusbarWidth)
 						) \
 				+ '\u25a1'
 					*(
-						self.statusbar_width
+						self.statusbarWidth
 						-int(
-							(i-self.initial_value+1)
-							/((self.final_value-self.initial_value)/self.statusbar_width)
+							(i-self.initialValue+1)
+							/((self.finalValue-self.initialValue)/self.statusbarWidth)
 							)
 					)
 				+ '] '
 				), 'white',attrs=['bold'])
-		elif i == self.bar_indices[1]:
-			self.statusbar_string = colored((
+		elif i == self.barIndices[1]:
+			self.statusbarString = colored((
 				'['
 				+ '\u25a0'
 					*int(
-						(i-self.initial_value+1)
-						/((self.final_value-self.initial_value)/self.statusbar_width)
+						(i-self.initialValue+1)
+						/((self.finalValue-self.initialValue)/self.statusbarWidth)
 						) \
 				+ '\u25a1'
 					*(
-						self.statusbar_width
+						self.statusbarWidth
 						-int(
-							(i-self.initial_value+1)
-							/((self.final_value-self.initial_value)/self.statusbar_width)
+							(i-self.initialValue+1)
+							/((self.finalValue-self.initialValue)/self.statusbarWidth)
 							)
 					)
 				+ '] '
 				), 'white',attrs=['bold'])
-			self.time_array.append(abs(time.time()-self.start_time))
-			self.time_left = '{0:1.1f}'.format(self.time_array[-1]*((self.final_value-self.initial_value)/(i-self.initial_value+1)))
-		elif i+1 in self.bar_indices[2:]:
-			self.statusbar_string = colored((
+			self.timeArray.append(abs(time.time()-self.startTime))
+			self.timeRemaining = '{0:1.1f}'.format(self.timeArray[-1]*((self.finalValue-self.initialValue)/(i-self.initialValue+1)))
+		elif i+1 in self.barIndices[2:]:
+			self.statusbarString = colored((
 				'['
 				+ '\u25a0'
 					*int(
-						(i-self.initial_value+1)
-						/((self.final_value-self.initial_value)/self.statusbar_width)
+						(i-self.initialValue+1)
+						/((self.finalValue-self.initialValue)/self.statusbarWidth)
 						) \
 				+ '\u25a1'
 					*(
-						self.statusbar_width
+						self.statusbarWidth
 						-int(
-							(i-self.initial_value+1)
-							/((self.final_value-self.initial_value)/self.statusbar_width)
+							(i-self.initialValue+1)
+							/((self.finalValue-self.initialValue)/self.statusbarWidth)
 							)
 					)
 				+ '] '
 				), 'white',attrs=['bold'])
-			self.time_array.append(abs(time.time()-self.start_time))
+			self.timeArray.append(abs(time.time()-self.startTime))
 			run_time_func = interpolate.interp1d(
-				np.arange(len(self.time_array)),
-				self.time_array,
+				np.arange(len(self.timeArray)),
+				self.timeArray,
 				fill_value='extrapolate'
 				)
-			end_time_estimate = run_time_func(len(self.bar_indices)-3)
-			self.time_left = '{0:1.1f}'.format(
-				float(abs(end_time_estimate - (time.time()-self.start_time)))
+			endTimeEstimate = run_time_func(len(self.barIndices)-3)
+			self.timeRemaining = '{0:1.1f}'.format(
+				float(abs(endTimeEstimate - (time.time()-self.startTime)))
 				)
 
-		if i+1 in self.percentage_indices:
-			if i+1 == self.percentage_indices[-1]:
+		if i+1 in self.percentageIndices:
+			if i+1 == self.percentageIndices[-1]:
 				self.statusbar = (
-					self.statusbar_string
+					self.statusbarString
 					+ colored(
-						('{0:1.1f}'.format((i-self.initial_value+1)/(self.final_value-self.initial_value)*100)
+						('{0:1.1f}'.format((i-self.initialValue+1)/(self.finalValue-self.initialValue)*100)
 						+ '% complete, '
 						),'blue')
 					+ colored(
 						('(Total Run Time: '
-						+ '{0:1.1f}'.format(time.time() - self.start_time)
+						+ '{0:1.1f}'.format(time.time() - self.startTime)
 						+ ' sec)'
 						),'green')
 					+ '\n'
 					)
-				print(" "*(self.terminal_width-1), end='\r')
+				print(" "*(self.terminalWidth-1), end='\r')
 				print(self.statusbar + '\n', end='\r')
 			else:
 				if not hasattr(self,"statusbar"):
-					previous_length = self.terminal_width-1
+					previousLength = self.terminalWidth-1
 				else:
-					previous_length = len(self.statusbar)
+					previousLength = len(self.statusbar)
 				self.statusbar = (
-					self.statusbar_string
+					self.statusbarString
 					+ colored((
-						'{0:1.1f}'.format((i-self.initial_value+1)/(self.final_value-self.initial_value)*100)
+						'{0:1.1f}'.format((i-self.initialValue+1)/(self.finalValue-self.initialValue)*100)
 						+ '% complete, '
 						),'blue')
 					+ colored((
-						'{0:1.1f}'.format(time.time() - self.start_time)
+						'{0:1.1f}'.format(time.time() - self.startTime)
 						+ ' sec,'
 						),'red')
 					+ colored((
 						' (est. '
-						+ self.time_left
+						+ self.timeRemaining
 						+ ' sec left)'
 						),'white')
 					)
-				if previous_length > len(self.statusbar):
-					print(" "*(self.terminal_width-1), end='\r')
+				if previousLength > len(self.statusbar):
+					print(" "*(self.terminalWidth-1), end='\r')
 				print(self.statusbar, end='\r')
 	def reset(self,**kwargs):
 		"""
@@ -233,29 +233,29 @@ class dsb:
 		title should be a str that will be displayed before the statusbar. title
 		should be no longer than 25 characters. Default will be the previous title.
 
-		initial_value must be an int greater than or equal to zero. Default is the previous initial_value.
+		initialValue must be an int greater than or equal to zero. Default is the previous initialValue.
 
-		final_value must be a positive int. Default is the previous final_value.
+		finalValue must be a positive int. Default is the previous finalValue.
 		"""
 
-		self.__delattr__('bar_indices')
+		self.__delattr__('barIndices')
 
 		assert hasattr(self,"title"), "dsb() has no attr 'title'. dsb() must be initialized before it can be reset."
 		self.title = kwargs.get("title",self.title)
 		assert type(self.title) == str, "title should be a string"
 
-		assert hasattr(self,"initial_value"), "dsb() has no attr 'initial_value'. dsb() must be initialized before it can be reset."
-		self.initial_value = kwargs.get("initial_value",self.initial_value)
-		assert (type(self.initial_value) == int
-				and self.initial_value>=0), \
-			"initial_value must be a positvie int or 0."
+		assert hasattr(self,"initialValue"), "dsb() has no attr 'initialValue'. dsb() must be initialized before it can be reset."
+		self.initialValue = kwargs.get("initialValue",self.initialValue)
+		assert (type(self.initialValue) == int
+				and self.initialValue>=0), \
+			"initialValue must be a positvie int or 0."
 
-		assert hasattr(self,"final_value"), "dsb() has no attr 'final_value'. dsb() must be initialized before it can be reset."
-		self.final_value = kwargs.get('final_value',self.final_value)
-		assert (type(self.final_value) == int
-				and self.final_value>0), \
-			"final_value must be a positvie int."
+		assert hasattr(self,"finalValue"), "dsb() has no attr 'finalValue'. dsb() must be initialized before it can be reset."
+		self.finalValue = kwargs.get('finalValue',self.finalValue)
+		assert (type(self.finalValue) == int
+				and self.finalValue>0), \
+			"finalValue must be a positvie int."
 
-		self.time_left = '--'
-		self.time_array = []
-		self.start_time = time.time()
+		self.timeRemaining = '--'
+		self.timeArray = []
+		self.startTime = time.time()
