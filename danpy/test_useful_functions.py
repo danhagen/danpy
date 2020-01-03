@@ -21,7 +21,7 @@ def test_is_number():
     except AssertionError:
         success = False
 
-    assert success==True, is_number.__name__() + " failed with good inputs and default kwargs."
+    assert success==True, is_number.__name__ + " failed with good inputs and default kwargs."
 
     ### test if x is a number ###
     try:
@@ -30,7 +30,7 @@ def test_is_number():
     except AssertionError:
         errorCaught = True
 
-    assert errorCaught==True, is_number.__name__() + " failed when testing if x was a number."
+    assert errorCaught==True, is_number.__name__ + " failed when testing if x was a number."
 
     ### test if VarName is a str ###
     try:
@@ -39,7 +39,7 @@ def test_is_number():
     except AssertionError:
         errorCaught = True
 
-    assert errorCaught==True, is_number.__name__() + " failed when testing if VarName is a str."
+    assert errorCaught==True, is_number.__name__ + " failed when testing if VarName is a str."
 
     ### test if default is a number ###
     try:
@@ -48,7 +48,7 @@ def test_is_number():
     except AssertionError:
         errorCaught = True
 
-    assert errorCaught==True, is_number.__name__() + " failed when testing if default (kwargs) is a number."
+    assert errorCaught==True, is_number.__name__ + " failed when testing if default (kwargs) is a number."
 
     ### test if notes is a str ###
     try:
@@ -57,12 +57,12 @@ def test_is_number():
     except AssertionError:
         errorCaught = True
 
-    assert errorCaught==True, is_number.__name__() + " failed when testing if notes (kwargs) is a str."
+    assert errorCaught==True, is_number.__name__ + " failed when testing if notes (kwargs) is a str."
 
 def test_save_figures():
     goodDestination = "goodDestination/"
     poorDestination_1 = 1111
-    poorDestination_2 = "Not a good Destination"
+    poorDestination_2 = "Not a good destination"
 
     goodSubFolderName = "goodSubFolderName/"
     poorSubFolderName_1 = 1111
@@ -77,7 +77,7 @@ def test_save_figures():
     goodSaveAsPDF = True
     poorSaveAsPDF = "Not a good SaveAsPDF"
 
-    ### test if Destination is a str ###
+    ### test if destination is a str ###
     try:
         save_figures(
             poorDestination_1,
@@ -90,9 +90,9 @@ def test_save_figures():
     except TypeError:
         errorCaught = True
 
-    assert errorCaught==True, save_figures.__name__() + " failed when testing if Destination is a str."
+    assert errorCaught==True, save_figures.__name__ + " failed when testing if destination is a str."
 
-    ### test if Destination ends in '/' ###
+    ### test if destination ends in '/' ###
     try:
         save_figures(
             poorDestination_2,
@@ -103,15 +103,15 @@ def test_save_figures():
     except AssertionError:
         errorCaught = True
 
-    assert errorCaught==True, save_figures.__name__() + " failed when testing if Destination ends in '/'."
+    assert errorCaught==True, save_figures.__name__ + " failed when testing if destination ends in '/'."
 
-    ### test if SubFolder is a str ###
+    ### test if subFolderName is a str ###
     try:
         save_figures(
             goodDestination,
             goodBaseFileName,
             goodParams,
-            SubFolder = poorSubFolderName_1
+            subFolderName = poorSubFolderName_1
         )
         errorCaught = False
     except AssertionError:
@@ -119,21 +119,21 @@ def test_save_figures():
     except TypeError:
         errorCaught = True
 
-    assert errorCaught==True, save_figures.__name__() + " failed when testing if SubFolder is a str."
+    assert errorCaught==True, save_figures.__name__ + " failed when testing if subFolderName is a str."
 
-    ### test if SubFolder ends in '/' ###
+    ### test if subFolderName ends in '/' ###
     try:
         save_figures(
             goodDestination,
             goodBaseFileName,
             goodParams,
-            SubFolder = poorSubFolderName_2
+            subFolderName = poorSubFolderName_2
         )
         errorCaught = False
     except AssertionError:
         errorCaught = True
 
-    assert errorCaught==True, save_figures.__name__() + " failed when testing if SubFolder ends in '/'."
+    assert errorCaught==True, save_figures.__name__ + " failed when testing if subFolderName ends in '/'."
 
     ### test if params is a dict ###
     try:
@@ -146,7 +146,7 @@ def test_save_figures():
     except AttributeError:
         errorCaught = True
 
-    assert errorCaught==True, save_figures.__name__() + " failed when testing if params is a dict."
+    assert errorCaught==True, save_figures.__name__ + " failed when testing if params is a dict."
 
     ### test if saveAsPDF is a bool ###
     try:
@@ -160,4 +160,4 @@ def test_save_figures():
     except AssertionError:
         errorCaught = True
 
-    assert errorCaught==True, save_figures.__name__() + " failed when testing if saveAsPDF is a bool."
+    assert errorCaught==True, save_figures.__name__ + " failed when testing if saveAsPDF is a bool."
