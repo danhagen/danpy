@@ -4,8 +4,8 @@ import matplotlib._pylab_helpers
 from matplotlib.backends.backend_pdf import PdfPages
 import time
 
-def is_number(x,VarName,**kwargs):
-    assert type(VarName)==str, "VarName must be a string."
+def is_number(x,variableName,**kwargs):
+    assert type(variableName)==str, "variableName must be a string."
     default = kwargs.get('default',None)
     notes = kwargs.get("notes","")
     assert type(notes)==str, "notes must be a string."
@@ -17,7 +17,7 @@ def is_number(x,VarName,**kwargs):
                 "<class 'float64'>",
                 "<class 'numpy.float'>",
                 "<class 'numpy.float64'>"], \
-            VarName + " must be an int, float, float32, float64, or numpy.float not "+str(type(x))+". " + notes
+            variableName + " must be an int, float, float32, float64, or numpy.float not "+str(type(x))+". " + notes
     else:
         assert str(type(default)) in [
                 "<class 'int'>",
@@ -34,71 +34,70 @@ def is_number(x,VarName,**kwargs):
                 "<class 'float64'>",
                 "<class 'numpy.float'>",
                 "<class 'numpy.float64'>"], \
-            VarName + " must be an int, float, float32, float64, or numpy.float not "+str(type(x))+". Default is " + str(default) + ". " + notes
+            variableName + " must be an int, float, float32, float64, or numpy.float not "+str(type(x))+". Default is " + str(default) + ". " + notes
 
-def save_figures(Destination,BaseFileName,params,ReturnPath=False,**kwargs):
-    """
+def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
+    fileType = kwargs.get("fileType","png")
+    assert fileType in ["eps", "pdf", "pgf", "png", "ps", "raw", "rgba", "svg", "svgz"],\
+        "fileType must be one of the supported formats: eps, pdf, pgf, png, ps, raw, rgba, svg, svgz"
+    subFolderName = kwargs.get("subFolderName",time.strftime("%Y_%m_%d_%H%M%S")+"/")
+    filePath = destination + subFolderName
+    assert type(destination) == str and destination[-1] == "/", \
+    	"destination must be a string ending is '/'. Currently destination = " + str(destination)
+    assert type(subFolderName) == str and subFolderName[-1] == "/", \
+    	"subFolderName must be a string ending is '/'. Currently subFolderName = " + str(subFolderName)
+    assert type(baseFileName) == str, \
+    	"baseFileName must be a string. Currently baseFileName = " + str(baseFileName) + " of type " + str(type(baseFileName))
 
-    """
+    if not os.path.exists(filePath):
+        os.makedirs(filePath)
 
-    SubFolder = kwargs.get("SubFolder",time.strftime("%Y_%m_%d_%H%M%S")+"/")
-    FilePath = Destination + SubFolder
-    assert type(Destination) == str and Destination[-1] == "/", \
-    	"Destination must be a string ending is '/'. Currently Destination = " + str(Destination)
-    assert type(SubFolder) == str and SubFolder[-1] == "/", \
-    	"SubFolder must be a string ending is '/'. Currently SubFolder = " + str(SubFolder)
-    assert type(BaseFileName) == str, \
-    	"BaseFileName must be a string. Currently BaseFileName = " + str(BaseFileName) + " of type " + str(type(BaseFileName))
-
-    if not os.path.exists(FilePath):
-        os.makedirs(FilePath)
-
-        EmptyNotesDoc = open(FilePath+'/notes.txt','w')
-        EmptyNotesDoc.write('[Created ' + SubFolder[:10].replace("_","/") + " at " + SubFolder[11:13] + ":" + SubFolder[13:15] + "." + SubFolder[15:17] + "]\n\n")
+        emptyNotesDocument = open(filePath+'/notes.txt','w')
+        emptyNotesDocument.write('[Created ' + subFolderName[:10].replace("_","/") + " at " + subFolderName[11:13] + ":" + subFolderName[13:15] + "." + subFolderName[15:17] + "]\n\n")
 
         paramString = "#"*30 +"\n" + "#"*11 + " Notes " + "#"*12 + "\n" + "#"*30 + "\n\n" + "\t\tNONE\n\n"
         paramString += "#"*30 +"\n" + "#"*9 + " Parameters " + "#"*9 + "\n" + "#"*30 + "\n\n"
         for key in params.keys():
             paramString += "\t\t" + key + ": " + str(params[key]) + "\n"
         paramString += "\n" + "#"*30
-        EmptyNotesDoc.write(paramString)
+        emptyNotesDocument.write(paramString)
 
-        EmptyNotesDoc.close()
+        emptyNotesDocument.close()
 
     figs = kwargs.get("figs",
     	[manager.canvas.figure for manager in matplotlib._pylab_helpers.Gcf.get_all_fig_managers()]
     	)
 
-    SaveAsPDF = kwargs.get("SaveAsPDF",False)
-    assert type(SaveAsPDF)==bool, "SaveAsPDF must be either True or False."
+    saveAsPDF = kwargs.get("saveAsPDF",False)
+    assert type(saveAsPDF)==bool, "saveAsPDF must be either True or False."
 
     i = 1
-    FileName = BaseFileName + "_" + "{:0>2d}".format(i) + "-01.jpg"
-    if os.path.exists(FilePath + FileName) == True:
-    	while os.path.exists(FilePath + FileName) == True:
+    fileName = baseFileName + "_" + "{:0>2d}".format(i) + "-01" + "." + fileType
+    if os.path.exists(filePath + fileName) == True:
+    	while os.path.exists(filePath + fileName) == True:
     		i += 1
-    		FileName = BaseFileName + "_" + "{:0>2d}".format(i) + "-01.jpg"
+    		fileName = baseFileName + "_" + "{:0>2d}".format(i) + "-01" + "." + fileType
 
     for i in range(len(figs)):
-    	figs[i].savefig(FilePath + FileName[:-6] + "{:0>2d}".format(i+1) + ".jpg")
+    	figs[i].savefig(filePath + fileName[:-6] + "{:0>2d}".format(i+1) + "." + fileType)
 
-    if SaveAsPDF == True:
-    	PDFFileName = FileName[:-7] + ".pdf"
-    	assert not os.path.exists(FilePath + PDFFileName), \
+    if saveAsPDF == True:
+    	PDFFileName = fileName[:-7] + ".pdf"
+    	assert not os.path.exists(filePath + PDFFileName), \
     			("Error with naming file. "
     			+ PDFFileName
     			+ " should not already exist as "
-    			+ FileName
+    			+ fileName
     			+ " does not exist. Try renaming or deleting "
     			+ PDFFileName
     			)
 
-    	PDFFile = PdfPages(FilePath + PDFFileName)
+    	PDFFile = PdfPages(filePath + PDFFileName)
     	if len(figs)==1:
     		PDFFile.savefig(figs[0])
     	else:
     		[PDFFile.savefig(fig) for fig in figs]
     	PDFFile.close()
 
-    if ReturnPath==True:
-        return(FilePath)
+    if returnPath==True:
+        return(filePath)
