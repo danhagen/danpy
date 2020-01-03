@@ -6,158 +6,158 @@ import subprocess
 from .useful_functions import *
 
 def test_is_number():
-    Good_x = 1111
-    Poor_x = "Not a number"
-    Good_VarName = "VarName"
-    Poor_VarName = 1111
+    goodVariableValue = 1111
+    poorVariableValue = "Not a number"
+    goodVariableName = "variableName"
+    poorVariableName = 1111
 
-    Poor_default = "Not a number"
-    Poor_notes = 1111
+    poorDefault = "Not a number"
+    poorNotes = 1111
 
     ### test is_number with Good inputs and no **kwargs ###
     try:
-        is_number(Good_x,Good_VarName)
-        Success = True
+        is_number(goodVariableValue,goodVariableName)
+        success = True
     except AssertionError:
-        Success = False
+        success = False
 
-    assert Success==True, is_number.__name__() + " failed with good inputs and default kwargs."
+    assert success==True, is_number.__name__() + " failed with good inputs and default kwargs."
 
     ### test if x is a number ###
     try:
-        is_number(Poor_x,Good_VarName)
-        ErrorCaught = False
+        is_number(poorVariableValue,goodVariableName)
+        errorCaught = False
     except AssertionError:
-        ErrorCaught = True
+        errorCaught = True
 
-    assert ErrorCaught==True, is_number.__name__() + " failed when testing if x was a number."
+    assert errorCaught==True, is_number.__name__() + " failed when testing if x was a number."
 
     ### test if VarName is a str ###
     try:
-        is_number(Good_x,Poor_VarName)
-        ErrorCaught = False
+        is_number(goodVariableValue,poorVariableName)
+        errorCaught = False
     except AssertionError:
-        ErrorCaught = True
+        errorCaught = True
 
-    assert ErrorCaught==True, is_number.__name__() + " failed when testing if VarName is a str."
+    assert errorCaught==True, is_number.__name__() + " failed when testing if VarName is a str."
 
     ### test if default is a number ###
     try:
-        is_number(Good_x,Good_VarName,default=Poor_default)
-        ErrorCaught = False
+        is_number(goodVariableValue,goodVariableName,default=poorDefault)
+        errorCaught = False
     except AssertionError:
-        ErrorCaught = True
+        errorCaught = True
 
-    assert ErrorCaught==True, is_number.__name__() + " failed when testing if default (kwargs) is a number."
+    assert errorCaught==True, is_number.__name__() + " failed when testing if default (kwargs) is a number."
 
     ### test if notes is a str ###
     try:
-        is_number(Good_x,Good_VarName,notes=Poor_notes)
-        ErrorCaught = False
+        is_number(goodVariableValue,goodVariableName,notes=poorNotes)
+        errorCaught = False
     except AssertionError:
-        ErrorCaught = True
+        errorCaught = True
 
-    assert ErrorCaught==True, is_number.__name__() + " failed when testing if notes (kwargs) is a str."
+    assert errorCaught==True, is_number.__name__() + " failed when testing if notes (kwargs) is a str."
 
 def test_save_figures():
-    Good_Destination = "Good_Destination/"
-    Poor_Destination_1 = 1111
-    Poor_Destination_2 = "Not a good Destination"
+    goodDestination = "goodDestination/"
+    poorDestination_1 = 1111
+    poorDestination_2 = "Not a good Destination"
 
-    Good_SubFolder = "Good_SubFolder/"
-    Poor_SubFolder_1 = 1111
-    Poor_SubFolder_2 = "Not a good SubFolder"
+    goodSubFolderName = "goodSubFolderName/"
+    poorSubFolderName_1 = 1111
+    poorSubFolderName_2 = "Not a good subFolderName"
 
-    Good_BaseFileName = "Good_BaseFileName"
-    Poor_BaseFileName = 1111
+    goodBaseFileName = "goodBaseFileName"
+    poorBaseFileName = 1111
 
-    Good_params = {"Good Params" : True}
-    Poor_params = 1111
+    goodParams = {"Good Params" : True}
+    poorParams = 1111
 
-    Good_SaveAsPDF = True
-    Poor_SaveAsPDF = "Not a good SaveAsPDF"
+    goodSaveAsPDF = True
+    poorSaveAsPDF = "Not a good SaveAsPDF"
 
     ### test if Destination is a str ###
     try:
         save_figures(
-            Poor_Destination_1,
-            Good_BaseFileName,
-            Good_params
+            poorDestination_1,
+            goodBaseFileName,
+            goodParams
         )
-        ErrorCaught = False
+        errorCaught = False
     except AssertionError:
-        ErrorCaught = True
+        errorCaught = True
     except TypeError:
-        ErrorCaught = True
+        errorCaught = True
 
-    assert ErrorCaught==True, save_figures.__name__() + " failed when testing if Destination is a str."
+    assert errorCaught==True, save_figures.__name__() + " failed when testing if Destination is a str."
 
     ### test if Destination ends in '/' ###
     try:
         save_figures(
-            Poor_Destination_2,
-            Good_BaseFileName,
-            Good_params
+            poorDestination_2,
+            goodBaseFileName,
+            goodParams
         )
-        ErrorCaught = False
+        errorCaught = False
     except AssertionError:
-        ErrorCaught = True
+        errorCaught = True
 
-    assert ErrorCaught==True, save_figures.__name__() + " failed when testing if Destination ends in '/'."
+    assert errorCaught==True, save_figures.__name__() + " failed when testing if Destination ends in '/'."
 
     ### test if SubFolder is a str ###
     try:
         save_figures(
-            Good_Destination,
-            Good_BaseFileName,
-            Good_params,
-            SubFolder = Poor_SubFolder_1
+            goodDestination,
+            goodBaseFileName,
+            goodParams,
+            SubFolder = poorSubFolderName_1
         )
-        ErrorCaught = False
+        errorCaught = False
     except AssertionError:
-        ErrorCaught = True
+        errorCaught = True
     except TypeError:
-        ErrorCaught = True
+        errorCaught = True
 
-    assert ErrorCaught==True, save_figures.__name__() + " failed when testing if SubFolder is a str."
+    assert errorCaught==True, save_figures.__name__() + " failed when testing if SubFolder is a str."
 
     ### test if SubFolder ends in '/' ###
     try:
         save_figures(
-            Good_Destination,
-            Good_BaseFileName,
-            Good_params,
-            SubFolder = Poor_SubFolder_2
+            goodDestination,
+            goodBaseFileName,
+            goodParams,
+            SubFolder = poorSubFolderName_2
         )
-        ErrorCaught = False
+        errorCaught = False
     except AssertionError:
-        ErrorCaught = True
+        errorCaught = True
 
-    assert ErrorCaught==True, save_figures.__name__() + " failed when testing if SubFolder ends in '/'."
+    assert errorCaught==True, save_figures.__name__() + " failed when testing if SubFolder ends in '/'."
 
     ### test if params is a dict ###
     try:
         save_figures(
-            Good_Destination,
-            Good_BaseFileName,
-            Poor_params,
+            goodDestination,
+            goodBaseFileName,
+            poorParams,
         )
-        ErrorCaught = False
+        errorCaught = False
     except AttributeError:
-        ErrorCaught = True
+        errorCaught = True
 
-    assert ErrorCaught==True, save_figures.__name__() + " failed when testing if params is a dict."
+    assert errorCaught==True, save_figures.__name__() + " failed when testing if params is a dict."
 
-    ### test if SaveAsPDF is a bool ###
+    ### test if saveAsPDF is a bool ###
     try:
         save_figures(
-            Good_Destination,
-            Good_BaseFileName,
-            Good_params,
-            SaveAsPDF = Poor_SaveAsPDF
+            goodDestination,
+            goodBaseFileName,
+            goodParams,
+            saveAsPDF = poorSaveAsPDF
         )
-        ErrorCaught = False
+        errorCaught = False
     except AssertionError:
-        ErrorCaught = True
+        errorCaught = True
 
-    assert ErrorCaught==True, save_figures.__name__() + " failed when testing if SaveAsPDF is a bool."
+    assert errorCaught==True, save_figures.__name__() + " failed when testing if saveAsPDF is a bool."

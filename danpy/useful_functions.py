@@ -4,20 +4,20 @@ import matplotlib._pylab_helpers
 from matplotlib.backends.backend_pdf import PdfPages
 import time
 
-def is_number(x,variableName,**kwargs):
+def is_number(variableValue,variableName,**kwargs):
     assert type(variableName)==str, "variableName must be a string."
     default = kwargs.get('default',None)
     notes = kwargs.get("notes","")
     assert type(notes)==str, "notes must be a string."
     if (default is None):
-        assert str(type(x)) in [
+        assert str(type(variableValue)) in [
                 "<class 'int'>",
                 "<class 'float'>",
                 "<class 'float32'>",
                 "<class 'float64'>",
                 "<class 'numpy.float'>",
                 "<class 'numpy.float64'>"], \
-            variableName + " must be an int, float, float32, float64, or numpy.float not "+str(type(x))+". " + notes
+            variableName + " must be an int, float, float32, float64, or numpy.float not "+str(type(variableValue))+". " + notes
     else:
         assert str(type(default)) in [
                 "<class 'int'>",
@@ -27,14 +27,14 @@ def is_number(x,variableName,**kwargs):
                 "<class 'numpy.float'>",
                 "<class 'numpy.float64'>"], \
             "default must be an int, float, float32, float64, or numpy.float not "+str(type(default))+"."
-        assert str(type(x)) in [
+        assert str(type(variableValue)) in [
                 "<class 'int'>",
                 "<class 'float'>",
                 "<class 'float32'>",
                 "<class 'float64'>",
                 "<class 'numpy.float'>",
                 "<class 'numpy.float64'>"], \
-            variableName + " must be an int, float, float32, float64, or numpy.float not "+str(type(x))+". Default is " + str(default) + ". " + notes
+            variableName + " must be an int, float, float32, float64, or numpy.float not "+str(type(variableValue))+". Default is " + str(default) + ". " + notes
 
 def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
     fileType = kwargs.get("fileType","png")
