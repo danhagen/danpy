@@ -73,14 +73,14 @@ def save_figures(Destination,BaseFileName,params,ReturnPath=False,**kwargs):
     assert type(SaveAsPDF)==bool, "SaveAsPDF must be either True or False."
 
     i = 1
-    FileName = BaseFileName + "_" + "{:0>2d}".format(i) + "-01.jpg"
+    FileName = BaseFileName + "_" + "{:0>2d}".format(i) + "-01.png"
     if os.path.exists(FilePath + FileName) == True:
     	while os.path.exists(FilePath + FileName) == True:
     		i += 1
-    		FileName = BaseFileName + "_" + "{:0>2d}".format(i) + "-01.jpg"
+    		FileName = BaseFileName + "_" + "{:0>2d}".format(i) + "-01.png"
 
     for i in range(len(figs)):
-    	figs[i].savefig(FilePath + FileName[:-6] + "{:0>2d}".format(i+1) + ".jpg")
+    	figs[i].savefig(FilePath + FileName[:-6] + "{:0>2d}".format(i+1) + ".png")
 
     if SaveAsPDF == True:
     	PDFFileName = FileName[:-7] + ".pdf"
