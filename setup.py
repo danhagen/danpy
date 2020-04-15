@@ -11,7 +11,7 @@ if path.isfile(readme_filepath):
 
 setuptools.setup(
     name="danpy",
-    version="1.2.0",
+    version="1.2.1",
     url="https://github.com/danhagen/danpy",
     author="Daniel A Hagen",
     author_email="dhagen@usc.edu",
@@ -19,7 +19,7 @@ setuptools.setup(
     long_description=README,
     long_description_content_type="text/markdown",
     packages=['danpy'],
-    install_requires=['termcolor','scipy','numpy','matplotlib','ntpath'],
+    install_requires=['termcolor','scipy','numpy','matplotlib'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Programming Language :: Python',

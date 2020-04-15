@@ -3,7 +3,6 @@ import os.path
 import matplotlib._pylab_helpers
 from matplotlib.backends.backend_pdf import PdfPages
 import time
-import ntpath
 
 def is_number(variableValue,variableName,**kwargs):
     assert type(variableName)==str, "variableName must be a string."
@@ -91,8 +90,12 @@ def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
     # Save notes file
 
     if saveAsMD==False:
-        notesDocument = open(filePath+'/notes.txt','a+')
-        notesDocument.write('[Created ' + defaultSubFolderName[:10].replace("_","/") + " at " + defaultSubFolderName[11:13] + ":" + defaultSubFolderName[13:15] + "." + defaultSubFolderName[15:17] + "]\n\n")
+        if os.path.exists(filePath+"/notes.txt"):
+            notesDocument = open(filePath+'/notes.txt','a+')
+            notesDocument.write('[Appended on ' + defaultSubFolderName[:10].replace("_","/") + " at " + defaultSubFolderName[11:13] + ":" + defaultSubFolderName[13:15] + "." + defaultSubFolderName[15:17] + "]\n\n")
+        else:
+            notesDocument = open(filePath+'/notes.txt','w')
+            notesDocument.write('[Created on ' + defaultSubFolderName[:10].replace("_","/") + " at " + defaultSubFolderName[11:13] + ":" + defaultSubFolderName[13:15] + "." + defaultSubFolderName[15:17] + "]\n\n")
 
         paramString = "#"*30 +"\n" + "#"*11 + " Notes " + "#"*12 + "\n" + "#"*30 + "\n\n" + "\t\t" + addNotes + "\n\n"
         paramString += "#"*30 +"\n" + "#"*9 + " Parameters " + "#"*9 + "\n" + "#"*30 + "\n\n"
@@ -121,7 +124,8 @@ def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
         notesDocument.write(paramString)
         notesDocument.write("## Figures\n\n")
         for newFilePath in newFilePaths:
-            notesDocument.write("#### " + ntpath.basename(newFilePath) + "\n\n")
+            _, newFileName = os.path.split(newFilePath)
+            notesDocument.write("#### " + newFileName + "\n\n")
             notesDocument.write(
                 '<p align="center">\n'
                 + '\t<img width="500" src="'+newFilePath[len(filePath):]+'">\n'
