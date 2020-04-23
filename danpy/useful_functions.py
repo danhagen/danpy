@@ -107,7 +107,7 @@ def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
 	else: # saveAsMD==True
 		if os.path.exists(filePath+"/README.md"):
 			notesDocument = open(filePath+"/README.md","a+")
-			notesDocument.write('# Appended on ' + defaultSubFolderName[:10].replace("_","/") + " at " + defaultSubFolderName[11:13] + ":" + defaultSubFolderName[13:15] + "." + defaultSubFolderName[15:17] + "\n\n")
+			notesDocument.write('\n# Appended on ' + defaultSubFolderName[:10].replace("_","/") + " at " + defaultSubFolderName[11:13] + ":" + defaultSubFolderName[13:15] + "." + defaultSubFolderName[15:17] + "\n\n")
 		else: # new folder, no README available
 			notesDocument = open(filePath+'/README.md','w')
 			notesDocument.write('# README.md for Figures Created ' + defaultSubFolderName[:10].replace("_","/") + " at " + defaultSubFolderName[11:13] + ":" + defaultSubFolderName[13:15] + "." + defaultSubFolderName[15:17] + "\n\n")
