@@ -11,7 +11,7 @@ if path.isfile(readme_filepath):
 
 setuptools.setup(
     name="danpy",
-    version="1.2.3",
+    version="1.3.0",
     url="https://github.com/danhagen/danpy",
     author="Daniel A Hagen",
     author_email="dhagen@usc.edu",
