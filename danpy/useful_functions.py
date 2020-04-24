@@ -2,7 +2,7 @@ import numpy as np
 import os.path
 import matplotlib._pylab_helpers
 from matplotlib.backends.backend_pdf import PdfPages
-import time
+from time import time
 from pathlib import Path
 
 def is_number(variableValue,variableName,**kwargs):
