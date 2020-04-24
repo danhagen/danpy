@@ -2,7 +2,7 @@ import numpy as np
 import os.path
 import matplotlib._pylab_helpers
 from matplotlib.backends.backend_pdf import PdfPages
-from time import time
+from datetime import datetime
 from pathlib import Path
 
 def is_number(variableValue,variableName,**kwargs):
@@ -44,7 +44,7 @@ def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
 	assert fileType in ["eps", "pdf", "pgf", "png", "ps", "raw", "rgba", "svg", "svgz"],\
 		"fileType must be one of the supported formats: eps, pdf, pgf, png, ps, raw, rgba, svg, svgz"
 
-	defaultSubFolderName = time.strftime("%Y_%m_%d_%H%M%S")
+	defaultSubFolderName = datetime.now().strftime("%Y_%m_%d_%H%M%S")
 	subFolderName = kwargs.get("subFolderName",defaultSubFolderName)
 
 	destination = Path(destination)
