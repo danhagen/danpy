@@ -61,7 +61,7 @@ def test_is_number():
 
 def test_save_figures():
     goodDestination = "goodDestination"
-    os.path.mkdir(goodDestination)
+    os.mkdir(goodDestination)
     poorDestination = 1111
 
     goodSubFolderName = "goodSubFolderName"
