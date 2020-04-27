@@ -4,6 +4,7 @@ import matplotlib._pylab_helpers
 from matplotlib.backends.backend_pdf import PdfPages
 from datetime import datetime
 from pathlib import Path
+import time
 
 def is_number(variableValue,variableName,**kwargs):
 	assert type(variableName)==str, "variableName must be a string."
@@ -151,3 +152,119 @@ def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
 
 	if returnPath==True:
 		return(filePath)
+
+class timer:
+    def __init__(self,*args):
+        self.startTime = time.time()
+        self.startTimeStr = time.strftime(
+            '%H:%M:%S',
+            time.gmtime(self.startTime)
+        )
+        self.totalRunTime = 0
+        self.totalRunTimeStr = '00:00.00'
+
+        if '--single_trial' in args:
+            self.singleTrial=True
+        else:
+            self.singleTrial=False
+            self.trialStartTime = self.startTime
+            self.trialStartTimeStr = time.strftime(
+                '%H:%M:%S',
+                time.gmtime(self.trialStartTime)
+            )
+            self.trialRunTime = 0
+            self.trialRunTimeStr = '00:00.00'
+
+    def start(self):
+        self.startTime = time.time()
+        self.totalRunTime = 0
+        self.totalRunTimeStr = '00:00.00'
+        if not self.singleTrial:
+            self.trialStartTime = self.startTime
+            self.trialRunTime = 0
+            self.trialRunTimeStr = '00:00.00'
+
+    def loop(self,verbose=1):
+        assert verbose in [1,2], "verbose must be either 0 or 1 (default)."
+        assert not self.singleTrial, "Cannot loop with a single trial timer. Reset the timer without '--single_trial' argument."
+        self.totalRunTime = time.time()-self.startTime
+        self.trialRunTime = time.time()-self.trialStartTime
+        self.totalRunTimeStr = time.strftime(
+            '%H:%M:%S',
+            time.gmtime(self.totalRunTime)
+        )
+        self.trialRunTimeStr = time.strftime(
+            '%H:%M:%S',
+            time.gmtime(self.trialRunTime)
+        )
+
+        if verbose==1:
+            print(f'Total Run Time: {self.totalRunTimeStr} ({self.trialRunTimeStr})\n')
+
+        self.trialStartTime = time.time()
+
+    def end(self,verbose=1):
+        assert verbose in [1,2], "verbose must be either 0 or 1 (default)."
+        self.totalRunTime = time.time()-self.startTime
+        self.trialRunTime = time.time()-self.trialStartTime
+        self.totalRunTimeStr = time.strftime(
+            '%H:%M:%S',
+            time.gmtime(self.totalRunTime)
+        )
+        if not self.singleTrial:
+            self.trialRunTimeStr = time.strftime(
+                '%H:%M:%S',
+                time.gmtime(self.trialRunTime)
+            )
+
+        if verbose==1:
+            if self.singleTrial:
+                print(f'Run Time: {self.totalRunTimeStr}')
+            else:
+                print(f'Total Run Time: {self.totalRunTimeStr} ({self.trialRunTimeStr})\n')
+
+        if not self.singleTrial:
+            self.trialStartTime = time.time()
+
+    def end_trial(self,verbose=1):
+        assert verbose in [1,2], "verbose must be either 0 or 1 (default)."
+        assert not self.singleTrial, "Only one trial is allowed with the '--single_trial' option. If using more trials, please reset without this option."
+        self.totalRunTime = time.time()-self.startTime
+        self.trialRunTime = time.time()-self.trialStartTime
+        self.totalRunTimeStr = time.strftime(
+            '%H:%M:%S',
+            time.gmtime(self.totalRunTime)
+        )
+        self.trialRunTimeStr = time.strftime(
+            '%H:%M:%S',
+            time.gmtime(self.trialRunTime)
+        )
+
+        if verbose==1:
+            print(f'Total Run Time: {self.totalRunTimeStr} ({self.trialRunTimeStr})\n')
+
+        self.trialStartTime = time.time()
+
+    def print_run_time(self):
+        print(f'Run Time: {self.totalRunTimeStr}\n')
+
+    def reset(self,*args):
+        self.startTime = time.time()
+        self.startTimeStr = time.strftime(
+            '%H:%M:%S',
+            time.gmtime(self.startTime)
+        )
+        self.totalRunTime = 0
+        self.totalRunTimeStr = '00:00.00'
+
+        if '--single_trial' in args:
+            self.singleTrial=True
+        else:
+            self.singleTrial=False
+            self.trialStartTime = self.startTime
+            self.trialStartTimeStr = time.strftime(
+                '%H:%M:%S',
+                time.gmtime(self.trialStartTime)
+            )
+            self.trialRunTime = 0
+            self.trialRunTimeStr = '00:00.00'
