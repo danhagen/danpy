@@ -50,7 +50,7 @@ def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
 	destination = Path(destination)
 	filePath = destination / subFolderName
 
-	assert destination.exist() and destination.is_dir(), "destination either does not exist or is not a directory."
+	assert destination.exists() and destination.is_dir(), "destination either does not exist or is not a directory."
 	assert type(subFolderName) == str, \
 		"subFolderName must be a string. Currently subFolderName is '%s' with type %s." % (str(subFolderName),str(type(subFolderName)))
 	filePath.mkdir(exist_ok=True) # Create path if it doesn't already exist.
