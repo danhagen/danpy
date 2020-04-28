@@ -185,7 +185,7 @@ class timer:
             self.trialRunTimeStr = '00:00.00'
 
     def loop(self,verbose=1):
-        assert verbose in [1,2], "verbose must be either 0 or 1 (default)."
+        assert verbose in [0,1], "verbose must be either 0 or 1 (default)."
         assert not self.singleTrial, "Cannot loop with a single trial timer. Reset the timer without '--single_trial' argument."
         self.totalRunTime = time.time()-self.startTime
         self.trialRunTime = time.time()-self.trialStartTime
@@ -204,7 +204,7 @@ class timer:
         self.trialStartTime = time.time()
 
     def end(self,verbose=1):
-        assert verbose in [1,2], "verbose must be either 0 or 1 (default)."
+        assert verbose in [0,1], "verbose must be either 0 or 1 (default)."
         self.totalRunTime = time.time()-self.startTime
         self.trialRunTime = time.time()-self.trialStartTime
         self.totalRunTimeStr = time.strftime(
@@ -227,7 +227,7 @@ class timer:
             self.trialStartTime = time.time()
 
     def end_trial(self,verbose=1):
-        assert verbose in [1,2], "verbose must be either 0 or 1 (default)."
+        assert verbose in [0,1], "verbose must be either 0 or 1 (default)."
         assert not self.singleTrial, "Only one trial is allowed with the '--single_trial' option. If using more trials, please reset without this option."
         self.totalRunTime = time.time()-self.startTime
         self.trialRunTime = time.time()-self.trialStartTime

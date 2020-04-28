@@ -11,7 +11,7 @@ if path.isfile(readme_filepath):
 
 setuptools.setup(
     name="danpy",
-    version="1.4.0",
+    version="1.4.1",
     url="https://github.com/danhagen/danpy",
     author="Daniel A Hagen",
     author_email="dhagen@usc.edu",
@@ -25,6 +25,7 @@ setuptools.setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
 )
 
