@@ -118,18 +118,23 @@ def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
 		paramString = f"## Notes\n\n{addNotes}\n\n"
 		paramString += "## Parameters \n\n```py\nparams = {\n"
 		for key in params.keys():
-			paramString += f"\t'{key}' : '{str(params[key])}',\n"
+            if type(params[key])==str:
+                paramString += f"\t'{key}' : '{str(params[key])}',\n"
+            else:
+                paramString += f"\t'{key}' : {str(params[key])},\n"
 		paramString = paramString[:-2] # removing last ',\n'
 		paramString += "\n}\n```\n\n"
 		notesDocument.write(paramString)
 
 		notesDocument.write("## Figures\n\n")
+        figureCount = 1
 		for newFilePath in newFilePaths:
 			_, newFileName = os.path.split(newFilePath)
 			notesDocument.write(f"#### {newFilePath.name}\n\n")
 			notesDocument.write(
 				'<p align="center">\n'
-				+ f'\t<img width="500" src="{newFilePath.name}">\n'
+				+ f'\t<img width="1000" src="{newFilePath.name}"></br>\n'
+                + f"\t<small>Figure {figureCount:d}: Caption for {newFilePath.name}.</small>\n"
 				+ '</p>\n\n'
 			)
 
