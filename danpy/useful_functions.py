@@ -130,12 +130,12 @@ def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
         figureCount = 1
 		for newFilePath in newFilePaths:
 			_, newFileName = os.path.split(newFilePath)
-			notesDocument.write(f"#### {newFilePath.name}\n\n")
+			# notesDocument.write(f"#### {newFilePath.name}\n\n")
 			notesDocument.write(
 				'<p align="center">\n'
 				+ f'\t<img width="1000" src="{newFilePath.name}"></br>\n'
                 + f"\t<small>Figure {figureCount:d}: Caption for {newFilePath.name}.</small>\n"
-				+ '</p>\n\n'
+				+ '</p>\n</br>\n</br>\n\n'
 			)
 
 	notesDocument.close()
