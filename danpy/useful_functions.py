@@ -111,9 +111,19 @@ def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
 		if (filePath/"README.md").exists():
 			notesDocument = (filePath/"README.md").open("a+")
 			notesDocument.write(f'\n\n# Appended on {YYYY}/{MM}/{DD} at {hh}:{mm}.{ss} PST. \n\n')
+            try:
+                with (filePath/"README.md").open("r") as f:
+                    lines = f.readlines()
+                allText = ""
+                for line in lines:
+                    allText+=line
+                figureCount = int(allText.rsplit('Figure ', 1)[1].split(":")[0])+1
+            except:
+                figureCount = 1
 		else: # new folder, no README available
 			notesDocument = (filePath/"README.md").open('w')
 			notesDocument.write(f'\n\n# README.md for Figures Created on {YYYY}/{MM}/{DD} at {hh}:{mm}.{ss} PST. \n\n')
+            figureCount=1
 
 		paramString = f"## Notes\n\n{addNotes}\n\n"
 		paramString += "## Parameters \n\n```py\nparams = {\n"
@@ -127,7 +137,6 @@ def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
 		notesDocument.write(paramString)
 
 		notesDocument.write("## Figures\n\n")
-        figureCount = 1
 		for newFilePath in newFilePaths:
 			_, newFileName = os.path.split(newFilePath)
 			# notesDocument.write(f"#### {newFilePath.name}\n\n")
@@ -137,6 +146,7 @@ def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
                 + f"\t<small>Figure {figureCount:d}: Caption for {newFilePath.name}.</small>\n"
 				+ '</p>\n</br>\n</br>\n\n'
 			)
+            figureCount+=1
 
 	notesDocument.close()
 
