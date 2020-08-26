@@ -16,56 +16,50 @@ def test_is_number():
     poorNotes = 1111
 
     ### test is_number with Good inputs and no **kwargs ###
+    success = False
     try:
         is_number(goodVariableValue,goodVariableName)
         success = True
-    except AssertionError:
-        success = False
 
     assert success==True, is_number.__name__ + " failed with good inputs and default kwargs."
 
     ### test if x is a number ###
+    errorCaught = True
     try:
         is_number(poorVariableValue,goodVariableName)
         errorCaught = False
-    except AssertionError:
-        errorCaught = True
 
     assert errorCaught==True, is_number.__name__ + " failed when testing if x was a number."
 
     ### test if x is a number when default is not None###
+    errorCaught = True
     try:
         is_number(poorVariableValue,goodVariableName,default=goodDefault)
         errorCaught = False
-    except AssertionError:
-        errorCaught = True
 
     assert errorCaught==True, is_number.__name__ + " failed when testing if x was a number."
 
     ### test if VarName is a str ###
+    errorCaught = True
     try:
         is_number(goodVariableValue,poorVariableName)
         errorCaught = False
-    except AssertionError:
-        errorCaught = True
 
     assert errorCaught==True, is_number.__name__ + " failed when testing if VarName is a str."
 
     ### test if default is a number ###
+    errorCaught = True
     try:
         is_number(goodVariableValue,goodVariableName,default=poorDefault)
         errorCaught = False
-    except AssertionError:
-        errorCaught = True
 
     assert errorCaught==True, is_number.__name__ + " failed when testing if default (kwargs) is a number."
 
     ### test if notes is a str ###
+    errorCaught = True
     try:
         is_number(goodVariableValue,goodVariableName,notes=poorNotes)
         errorCaught = False
-    except AssertionError:
-        errorCaught = True
 
     assert errorCaught==True, is_number.__name__ + " failed when testing if notes (kwargs) is a str."
 
