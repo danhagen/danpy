@@ -76,7 +76,8 @@ def test_save_figures():
 
     goodDestination = "goodDestination"
     os.mkdir(goodDestination)
-    poorDestination = 1111
+    poorDestination1 = 1111
+    poorDestination2 = "not a Directory"
 
     goodSubFolderName = "goodSubFolderName"
     poorSubFolderName = 1111
@@ -90,42 +91,25 @@ def test_save_figures():
     goodSaveAsPDF = True
     poorSaveAsPDF = "Not a good SaveAsPDF"
 
-    ### test if fileType is a proper file type ###
-    try:
-        save_figures(
-            goodDestination,
-            goodBaseFileName,
-            goodParams,
-            fileType=poorFileType1
-        )
-        errorCaught = False
-    except AssertionError:
-        errorCaught = True
-    except TypeError:
-        errorCaught = True
-
-    assert errorCaught==True, save_figures.__name__ + " failed when testing if fileType is one of the supported formats: eps, pdf, pgf, png, ps, raw, rgba, svg, svgz"
-
-    ### test if fileType is a str ###
-    try:
-        save_figures(
-            goodDestination,
-            goodBaseFileName,
-            goodParams,
-            fileType=poorFileType2
-        )
-        errorCaught = False
-    except AssertionError:
-        errorCaught = True
-    except TypeError:
-        errorCaught = True
-
-    assert errorCaught==True, save_figures.__name__ + " failed when testing if fileType is a str."
-
     ### test if destination is a str ###
     try:
         save_figures(
-            poorDestination,
+            poorDestination1,
+            goodBaseFileName,
+            goodParams
+        )
+        errorCaught = False
+    except AssertionError:
+        errorCaught = True
+    except TypeError:
+        errorCaught = True
+
+    assert errorCaught==True, save_figures.__name__ + " failed when testing if destination is a str."
+
+    ### test if destination is a directory ###
+    try:
+        save_figures(
+            poorDestination2,
             goodBaseFileName,
             goodParams
         )
@@ -165,6 +149,54 @@ def test_save_figures():
         errorCaught = True
 
     assert errorCaught==True, save_figures.__name__ + " failed when testing if params is a dict."
+
+    ### test if fileType is a proper file type ###
+    try:
+        save_figures(
+            goodDestination,
+            goodBaseFileName,
+            goodParams,
+            fileType=poorFileType1
+        )
+        errorCaught = False
+    except AssertionError:
+        errorCaught = True
+    except TypeError:
+        errorCaught = True
+
+    assert errorCaught==True, save_figures.__name__ + " failed when testing if fileType is one of the supported formats: eps, pdf, pgf, png, ps, raw, rgba, svg, svgz"
+
+    ### test if fileType is a str ###
+    try:
+        save_figures(
+            goodDestination,
+            goodBaseFileName,
+            goodParams,
+            fileType=poorFileType2
+        )
+        errorCaught = False
+    except AssertionError:
+        errorCaught = True
+    except TypeError:
+        errorCaught = True
+
+    assert errorCaught==True, save_figures.__name__ + " failed when testing if fileType is a str."
+
+    ### test if subFolderName is a str ###
+    try:
+        save_figures(
+            goodDestination,
+            goodBaseFileName,
+            goodParams,
+            subFolderName=poorSubFolderName
+        )
+        errorCaught = False
+    except AssertionError:
+        errorCaught = True
+    except TypeError:
+        errorCaught = True
+
+    assert errorCaught==True, save_figures.__name__ + " failed when testing if subFolderName is a str."
 
     ### test if saveAsPDF is a bool ###
     try:
