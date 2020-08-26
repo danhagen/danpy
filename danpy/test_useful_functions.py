@@ -70,6 +70,10 @@ def test_is_number():
     assert errorCaught==True, is_number.__name__ + " failed when testing if notes (kwargs) is a str."
 
 def test_save_figures():
+    goodFileType = "png"
+    poorFileType1 = "jpg"
+    poorFileType2 = 1111
+
     goodDestination = "goodDestination"
     os.mkdir(goodDestination)
     poorDestination = 1111
@@ -85,6 +89,38 @@ def test_save_figures():
 
     goodSaveAsPDF = True
     poorSaveAsPDF = "Not a good SaveAsPDF"
+
+    ### test if fileType is a proper file type ###
+    try:
+        save_figures(
+            goodDestination,
+            goodBaseFileName,
+            goodParams,
+            fileType=poorFileType1
+        )
+        errorCaught = False
+    except AssertionError:
+        errorCaught = True
+    except TypeError:
+        errorCaught = True
+
+    assert errorCaught==True, save_figures.__name__ + " failed when testing if fileType is one of the supported formats: eps, pdf, pgf, png, ps, raw, rgba, svg, svgz"
+
+    ### test if fileType is a str ###
+    try:
+        save_figures(
+            goodDestination,
+            goodBaseFileName,
+            goodParams,
+            fileType=poorFileType2
+        )
+        errorCaught = False
+    except AssertionError:
+        errorCaught = True
+    except TypeError:
+        errorCaught = True
+
+    assert errorCaught==True, save_figures.__name__ + " failed when testing if fileType is a str."
 
     ### test if destination is a str ###
     try:
