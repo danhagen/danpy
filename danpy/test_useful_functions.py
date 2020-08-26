@@ -10,6 +10,7 @@ def test_is_number():
     poorVariableValue = "Not a number"
     goodVariableName = "variableName"
     poorVariableName = 1111
+    goodDefault = 1
 
     poorDefault = "Not a number"
     poorNotes = 1111
@@ -26,6 +27,15 @@ def test_is_number():
     ### test if x is a number ###
     try:
         is_number(poorVariableValue,goodVariableName)
+        errorCaught = False
+    except AssertionError:
+        errorCaught = True
+
+    assert errorCaught==True, is_number.__name__ + " failed when testing if x was a number."
+
+    ### test if x is a number when default is not None###
+    try:
+        is_number(poorVariableValue,goodVariableName,default=goodDefault)
         errorCaught = False
     except AssertionError:
         errorCaught = True
