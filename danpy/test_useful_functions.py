@@ -6,7 +6,7 @@ import subprocess
 import shutil
 import matplotlib.pyplot as plt
 
-from useful_functions import *
+from .useful_functions import *
 
 class Test_is_number(unittest.TestCase):
     def test_is_number_good(self):
