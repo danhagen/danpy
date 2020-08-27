@@ -6,7 +6,7 @@ import subprocess
 import shutil
 import matplotlib.pyplot as plt
 
-from useful_functions import *
+from .useful_functions import *
 
 class Test_is_number(unittest.TestCase):
     def test_is_number_good(self):
@@ -409,7 +409,7 @@ class Test_timer(unittest.TestCase):
         time.sleep(2)
         self.Timer.end()
         currentTime = time.time()
-        
+
         self.assertTrue(abs(self.Timer.totalRunTime - 2)<5e-3)
         self.assertTrue(abs(self.Timer.trialRunTime - 2)<5e-3)
         self.assertTrue(
