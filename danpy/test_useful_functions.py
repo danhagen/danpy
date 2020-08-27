@@ -130,9 +130,7 @@ def test_save_figures():
     except AssertionError:
         errorCaught = True
 
-    assert errorCaught==True, save_figures.__name__ + " failed when testing if destination is a str."
-
-    assert errorCaught==False, save_figures.__name__ + " failed when testing if destination is a str and it exists (GOOD)."
+    assert errorCaught==True, save_figures.__name__ + " failed when testing if destination is a dir and it exists."
 
     ### test if baseFileName is a str ###
     try:
