@@ -4,7 +4,7 @@ import unittest
 import os
 import subprocess
 import shutil
-from useful_functions import *
+from .useful_functions import *
 
 class Test_is_number(unittest.TestCase):
     def test_good_is_number(self):
