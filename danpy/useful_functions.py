@@ -224,8 +224,8 @@ class timer:
 	def end(self,verbose=1):
 		assert verbose in [0,1], "verbose must be either 0 or 1 (default)."
 		self.totalRunTime = time.time()-self.startTime
-        if not self.singleTrial:
-            self.trialRunTime = time.time()-self.trialStartTime
+		if not self.singleTrial:
+			self.trialRunTime = time.time()-self.trialStartTime
 		self.totalRunTimeStr = time.strftime(
 			'%H:%M:%S',
 			time.gmtime(self.totalRunTime)
