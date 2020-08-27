@@ -6,7 +6,7 @@ import subprocess
 import shutil
 import matplotlib.pyplot as plt
 
-from .useful_functions import *
+from useful_functions import *
 
 class Test_is_number(unittest.TestCase):
     def test_is_number_good(self):
@@ -257,6 +257,206 @@ class Test_save_figures(unittest.TestCase):
             "TEMP_DIR","a",{"a":1},
             returnPath='not a bool'
         )
+
+class Test_timer(unittest.TestCase):
+
+    def setUp(self):
+        self.Timer = timer()
+
+    def test_timer__init__default(self):
+        self.Timer = timer()
+        currentTime = time.time()
+
+        self.assertTrue(hasattr(self.Timer,'startTime'))
+        self.assertTrue(abs(self.Timer.startTime - currentTime)<1e-4)
+        self.assertTrue(hasattr(self.Timer,'startTimeStr'))
+        self.assertTrue(hasattr(self.Timer,'totalRunTime'))
+        self.assertTrue(self.Timer.totalRunTime==0)
+        self.assertTrue(hasattr(self.Timer,'totalRunTimeStr'))
+        self.assertTrue(self.Timer.totalRunTimeStr=='00:00.00')
+        self.assertTrue(hasattr(self.Timer,"singleTrial"))
+        self.assertTrue(self.Timer.singleTrial==False)
+
+        self.assertTrue(hasattr(self.Timer,'trialStartTime'))
+        self.assertTrue(self.Timer.trialStartTime==self.Timer.startTime)
+        self.assertTrue(hasattr(self.Timer,'trialStartTimeStr'))
+        self.assertTrue(hasattr(self.Timer,'trialRunTime'))
+        self.assertTrue(self.Timer.trialRunTime==0)
+        self.assertTrue(hasattr(self.Timer,'trialRunTimeStr'))
+        self.assertTrue(self.Timer.trialRunTimeStr=='00:00.00')
+
+    def test_timer__init__w_single_trial(self):
+        self.Timer = timer('--single_trial')
+        currentTime = time.time()
+
+        self.assertTrue(hasattr(self.Timer,'startTime'))
+        self.assertTrue(abs(self.Timer.startTime - currentTime)<1e-4)
+        self.assertTrue(hasattr(self.Timer,'startTimeStr'))
+        self.assertTrue(hasattr(self.Timer,'totalRunTime'))
+        self.assertTrue(self.Timer.totalRunTime==0)
+        self.assertTrue(hasattr(self.Timer,'totalRunTimeStr'))
+        self.assertTrue(self.Timer.totalRunTimeStr=='00:00.00')
+        self.assertTrue(hasattr(self.Timer,"singleTrial"))
+        self.assertTrue(self.Timer.singleTrial==True)
+
+    def test_timer_start(self):
+        self.Timer = timer()
+        self.Timer.start()
+        currentTime = time.time()
+        self.assertTrue(self.Timer.totalRunTime==0)
+        self.assertTrue(self.Timer.totalRunTimeStr=='00:00.00')
+        self.assertTrue(abs(self.Timer.trialStartTime - currentTime)<1e-4)
+        self.assertTrue(self.Timer.trialRunTime==0)
+        self.assertTrue(self.Timer.trialRunTimeStr=='00:00.00')
+
+    def test_timer_start_w_single_trial(self):
+        self.Timer = timer('--single_trial')
+        self.Timer.start()
+        currentTime = time.time()
+        self.assertTrue(self.Timer.totalRunTime==0)
+        self.assertTrue(self.Timer.totalRunTimeStr=='00:00.00')
+        self.Timer=timer()
+
+    def test_timer_loop(self):
+        self.assertRaises(AssertionError,self.Timer.loop,verbose=2)
+
+        self.Timer = timer('--single_trial')
+        self.assertRaises(AssertionError,self.Timer.loop)
+
+        self.Timer = timer()
+        time.sleep(2)
+        self.Timer.loop()
+        currentTime = time.time()
+
+        self.assertTrue(abs(self.Timer.totalRunTime - 2)<5e-3)
+        self.assertTrue(abs(self.Timer.trialRunTime - 2)<5e-3)
+        self.assertTrue(
+            self.Timer.totalRunTimeStr
+            ==
+            time.strftime(
+    			'%H:%M:%S',
+    			time.gmtime(self.Timer.totalRunTime)
+            )
+		)
+        self.assertTrue(
+            self.Timer.trialRunTimeStr
+            ==
+            time.strftime(
+    			'%H:%M:%S',
+    			time.gmtime(self.Timer.trialRunTime)
+            )
+		)
+        self.assertTrue(
+            abs(self.Timer.trialStartTime - currentTime)<5e-3
+        )
+
+    def test_timer_end(self):
+        self.assertRaises(AssertionError,self.Timer.loop,verbose=2)
+
+        self.Timer = timer()
+        time.sleep(2)
+        self.Timer.end()
+        currentTime = time.time()
+
+        self.assertTrue(abs(self.Timer.totalRunTime - 2)<5e-3)
+        self.assertTrue(abs(self.Timer.trialRunTime - 2)<5e-3)
+        self.assertTrue(
+            self.Timer.totalRunTimeStr
+            ==
+            time.strftime(
+    			'%H:%M:%S',
+    			time.gmtime(self.Timer.totalRunTime)
+            )
+		)
+        self.assertTrue(
+            self.Timer.trialRunTimeStr
+            ==
+            time.strftime(
+    			'%H:%M:%S',
+    			time.gmtime(self.Timer.trialRunTime)
+            )
+		)
+        self.assertTrue(
+            abs(self.Timer.trialStartTime - currentTime)<5e-3
+        )
+
+    def test_timer_end_w_single_trial(self):
+        self.assertRaises(AssertionError,self.Timer.loop,verbose=2)
+
+        self.Timer = timer("--single_trial")
+        time.sleep(2)
+        self.Timer.end()
+        currentTime = time.time()
+
+        self.assertTrue(abs(self.Timer.totalRunTime - 2)<5e-3)
+        self.assertTrue(
+            self.Timer.totalRunTimeStr
+            ==
+            time.strftime(
+    			'%H:%M:%S',
+    			time.gmtime(self.Timer.totalRunTime)
+            )
+		)
+        self.Timer = timer()
+
+    def test_timer_end_trial(self):
+        self.assertRaises(AssertionError,self.Timer.loop,verbose=2)
+
+        self.Timer = timer('--single_trial')
+        self.assertRaises(AssertionError,self.Timer.end_trial)
+
+        self.Timer = timer()
+        time.sleep(2)
+        self.Timer.end()
+        currentTime = time.time()
+        
+        self.assertTrue(abs(self.Timer.totalRunTime - 2)<5e-3)
+        self.assertTrue(abs(self.Timer.trialRunTime - 2)<5e-3)
+        self.assertTrue(
+            self.Timer.totalRunTimeStr
+            ==
+            time.strftime(
+    			'%H:%M:%S',
+    			time.gmtime(self.Timer.totalRunTime)
+            )
+		)
+        self.assertTrue(
+            self.Timer.trialRunTimeStr
+            ==
+            time.strftime(
+    			'%H:%M:%S',
+    			time.gmtime(self.Timer.trialRunTime)
+            )
+		)
+        self.assertTrue(
+            abs(self.Timer.trialStartTime - currentTime)<5e-3
+        )
+
+    def test_timer_reset_default(self):
+        self.Timer = timer()
+        time.sleep(2)
+        self.Timer.reset()
+        currentTime = time.time()
+
+        self.assertTrue(abs(self.Timer.startTime - currentTime)<5e-3)
+        self.assertTrue(self.Timer.totalRunTime==0)
+        self.assertTrue(self.Timer.totalRunTimeStr=='00:00.00')
+        self.assertTrue(self.Timer.singleTrial==False)
+        self.assertTrue(self.Timer.trialStartTime==self.Timer.startTime)
+        self.assertTrue(self.Timer.trialRunTime==0)
+        self.assertTrue(self.Timer.trialRunTimeStr=='00:00.00')
+
+    def test_timer_reset_w_single_trial(self):
+        self.Timer = timer('--single_trial')
+        time.sleep(2)
+        self.Timer.reset('--single_trial')
+        currentTime = time.time()
+
+        self.assertTrue(abs(self.Timer.startTime - currentTime)<5e-3)
+        self.assertTrue(self.Timer.totalRunTime==0)
+        self.assertTrue(self.Timer.totalRunTimeStr=='00:00.00')
+        self.assertTrue(self.Timer.singleTrial==True)
+
 #
 # def test_is_number():
 #     goodVariableValue = 1111
