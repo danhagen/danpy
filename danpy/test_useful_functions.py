@@ -114,7 +114,7 @@ def test_save_figures():
             goodParams
         )
         errorCaught = False
-    except AssertionError:
+    except TypeError:
         errorCaught = True
 
     assert errorCaught==True, save_figures.__name__ + " failed when testing if destination is a str."
