@@ -38,7 +38,7 @@ def is_number(variableValue,variableName,**kwargs):
 				"<class 'numpy.float64'>"], \
 			variableName + " must be an int, float, float32, float64, or numpy.float not "+str(type(variableValue))+". Default is " + str(default) + ". " + notes
 
-def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
+def save_figures(destination,baseFileName,params,**kwargs):
 	fileType = kwargs.get("fileType","png")
 	assert type(fileType)==str,"fileType must be a string."
 	fileType = fileType.lower()
@@ -47,6 +47,7 @@ def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
 
 	defaultSubFolderName = datetime.now().strftime("%Y_%m_%d_%H%M%S")
 	subFolderName = kwargs.get("subFolderName",defaultSubFolderName)
+	assert type(subFolderName)==str, "subFolderName must be a str."
 
 	destination = Path(destination)
 	filePath = destination / subFolderName
@@ -165,6 +166,8 @@ def save_figures(destination,baseFileName,params,returnPath=False,**kwargs):
 			[PDFFile.savefig(fig) for fig in figs]
 		PDFFile.close()
 
+	returnPath=kwargs.get("returnPath",False)
+	assert type(returnPath)==bool, "returnPath must be either True or False (default)."
 	if returnPath==True:
 		return(filePath)
 
