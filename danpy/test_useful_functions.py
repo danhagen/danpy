@@ -72,6 +72,39 @@ class Test_save_figures(unittest.TestCase):
         except:
             self.fail("save_figures() raised Error unexpectedly!")
 
+    def test_save_figures_good_appended(self):
+        try:
+            create_temp_dir()
+            plot_empty_figure()
+            figPath = save_figures(
+                "TEMP_DIR","a",{"a":1},
+                returnPath=True
+            )
+            plt.close('all')
+
+            plot_empty_figure()
+            save_figures(
+                "TEMP_DIR","a",{"a":1},
+                subFolderName=figPath.stem
+            )
+            plt.close('all')
+
+            self.assertTrue("TEMP_DIR" in os.listdir())
+            self.assertTrue(len(os.listdir("TEMP_DIR"))==1)
+            self.assertTrue(
+                datetime.today().strftime("%Y_%m_%d")
+                in os.listdir("TEMP_DIR")[0]
+            )
+            self.assertTrue(figPath/"notes.txt" in figPath.iterdir())
+            self.assertTrue(figPath/"a_01-01.png" in figPath.iterdir())
+            self.assertTrue(figPath/"a_02-01.png" in figPath.iterdir())
+            self.assertTrue(
+                "Appended"
+                in (figPath/"notes.txt").read_text()
+            )
+        except:
+            self.fail("save_figures() raised Error unexpectedly!")
+
     def test_save_figures_good_w_fileType(self):
         try:
             create_temp_dir()
@@ -141,6 +174,42 @@ class Test_save_figures(unittest.TestCase):
             figPath = Path("TEMP_DIR") / os.listdir("TEMP_DIR")[0]
             self.assertTrue(figPath/"README.md" in figPath.iterdir())
             self.assertTrue(figPath/"a_01-01.png" in figPath.iterdir())
+        except:
+            self.fail("save_figures(saveAsMD=...) raised Error unexpectedly!")
+
+    def test_save_figures_good_w_saveAsMD_appended(self):
+        try:
+            create_temp_dir()
+            plot_empty_figure()
+            figPath = save_figures(
+                "TEMP_DIR","a",{"a":1},
+                returnPath=True,
+                saveAsMD=True
+            )
+            plt.close('all')
+
+            plot_empty_figure()
+            save_figures(
+                "TEMP_DIR","a",{"a":1},
+                subFolderName=figPath.stem,
+                saveAsMD=True
+            )
+            plt.close('all')
+
+            self.assertTrue("TEMP_DIR" in os.listdir())
+            self.assertTrue(len(os.listdir("TEMP_DIR"))==1)
+            self.assertTrue(
+                datetime.today().strftime("%Y_%m_%d")
+                in os.listdir("TEMP_DIR")[0]
+            )
+            figPath = Path("TEMP_DIR") / os.listdir("TEMP_DIR")[0]
+            self.assertTrue(figPath/"README.md" in figPath.iterdir())
+            self.assertTrue(figPath/"a_01-01.png" in figPath.iterdir())
+            self.assertTrue(figPath/"a_02-01.png" in figPath.iterdir())
+            self.assertTrue(
+                "Appended"
+                in (figPath/"README.md").read_text()
+            )
         except:
             self.fail("save_figures(saveAsMD=...) raised Error unexpectedly!")
 
@@ -407,7 +476,7 @@ class Test_timer(unittest.TestCase):
 
         self.Timer = timer()
         time.sleep(2)
-        self.Timer.end()
+        self.Timer.end_trial()
         currentTime = time.time()
 
         self.assertTrue(abs(self.Timer.totalRunTime - 2)<5e-3)
