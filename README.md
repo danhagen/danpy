@@ -115,45 +115,13 @@ Only compatible with while loops that utilize a `count` metric where the loop co
 ## Useful Functions for Python with `danpy.useful_functions`
 Included in this package are the functions `is_number` and `save_figures`.
 
-### Simple test function for asserting a variable is, in fact, a number.
-In order to quickly test if a variable is a number (and not a `str` or `bool`), simply type `is_number(variable,variableName)` as such:
-
-```py
-from danpy.useful_function import is_number
-
-myVariable = 3.1415926536
-is_number(myVariable,"myVariable")
-```
-
-This will not raise an AssertionError as `myVariable` is a number. To make the debugging easier to locate, the additional arguments `default` and `notes` have been added.
-
-```py
-from danpy.useful_functions import is_number
-
-myVariable = "Not a number"
-defaultValue = 3.1415926536
-notes = "This is where I would put notes pertaining to the variable like relative magnitude, units, etc."
-
-is_number(myVariable,"myVariable",
-  default=defaultValue,
-  notes=notes
-)
-```
-
-which will raise the `AssertionError`:
-
-```console
-AssertionError: myVariable must be an int, float, float32, float64, or numpy.float not <class 'str'>. Default is 3.1415926536. This is where I would put notes pertaining to the variable like relative magnitude, units, etc.
-```
-
 ### Simple function to save all current figures.
 The function `save_figures` is designed to save all currently open figures (or a prescribed subset of them) to a convenient location for easy storing, viewing, and comparison.
 I find that this works best if you create a "figures/" destination folder first so that your figures automatically get organized in a location other than location of your project's source code.
 
 In order to save your figures, you must specify the `destination` of the figures (`str`, in this case, "figures/"), the `baseFileName` (`str`, which can be used to further describe the figures), and a dictionary of the parameters (`params`:`dict`) used to create these plots.
-Note that the `destination` must be an existing directory in order for the figures to properly save.
-The `params` argument is a little different and can left blank (i.e., `{}`) if desired, but I find that this input proves to be incredibly useful when you need to compare parameters across trials.
-This will also be used to create a `notes.txt` (or `README.md`) file that allows for quick reference of the used parameters. As an example, try:
+This last argument is a little different and can left blank (i.e., `{}`) if desired, but I find this to be incredibly useful when you need to compare parameters across trials.
+This will also be used to create a `notes.txt` (or `README.md`; see below) file that allows for quick reference of the used parameters. As an example, try:
 
 ```py
 from danpy.useful_functions import save_figures
@@ -197,7 +165,7 @@ save_figures(
 plt.show()
 ```
 
-This code will create a subfolder in "figures/" that is time stamped that contains three files ("Signal_figures_01-01.png","Signal_figures_01-02.png", and "notes.txt"). The first two files have the base file name "Signal_figures" followed by the number 01 (which corresponds to the trial number) and then the figure number. This can be useful when you wish to add figures to the _same_ subfolder, when the parameters don't change (but more on that later).
+This code will create a subfolder in "figures/" that is time stamped that contains three files (`Signal_figures_01-01.png`,`Signal_figures_01-02.png`, and `notes.txt`). The first two files have the base file name `Signal_figures` followed by the number 01 (which corresponds to the trial number) and then the figure number. This can be useful when you wish to add figures to the _same_ subfolder, when the parameters don't change (but more on that later).
 
 The notes will appear as such,
 
@@ -222,13 +190,199 @@ The notes will appear as such,
 ##############################
 ```
 
-Note that all of the parameters have been listed conveniently as well as the date and time that the file was generated. You can also add your own notes to further categorize your results.
+Note that all of the parameters have been listed conveniently as well as the date and time that the file was generated. You can also add your own notes to further categorize your results with the `addNotes` kwarg.
+
+Additionally, you can set the kwarg `saveAsMD` as `True` (default is `False`) to create a Github-flavored markdown version of this `notes.txt` files, which will be saved as a `README.md` file to allow for seamless viewing.
+If these figures are to be pushed to your project repository, simply navigate to the `figures/` folder and the corresponding subfolder and your results will be automatically presented on the Github subfolder page thanks to the magic of Github-flavored markdown.
+I prefer this option as it will also automatically add HTML figure blocks with all of the figures in the corresponding subfolder. As an example, see the screen grab of the `README.md` file created for the above code when `saveAsMD=True`.
+
+<p align="center">
+	<img width="500" src="https://user-images.githubusercontent.com/16945786/91619078-f4a73900-e940-11ea-87f4-c61f30ee2c6d.png">
+</p>
+
+These README files can be edited directly as well to include things like figure captions.
+
+For either option, if you wish to run an additional trial and have those results saved in the same folder you can specify the `subFolderName` to the previously generated subfolder and (1) the figures will be saved there with the number identifier changed (generally, plus 1) to denote a new trial and (2) the `notes.txt` or `README.md` file will be _appended_ to include the new information.
+
+To do this, you will also want to recover the path to the previous subfolder. To do this, use the kwarg `returnPath=True` in the first `save_figures` instance which will return the `Path` (from `pathlib` package) of the folder, which we will designate as `figPath`.
+Then use the kwarg `subFolderName=figPath.stem`.
+
+```py
+from danpy.useful_functions import save_figures
+import matplotlib.pyplot as plt
+import numpy as np
+
+dt = 0.01
+signalAmplitude = 1
+signalFrequency = 0.5 # Hz
+durationOfSignal = 10 # seconds
+
+params = {
+  "Time Step" : dt,
+  "Signal Amplitude" : signalAmplitude,
+  "Signal Frequency" : signalFrequency,
+  "Duration Of Signal" : durationOfSignal
+}
+
+time = np.arange(0,durationOfSignal+dt,dt)
+signal1 = signalAmplitude*np.sin(2*np.pi*signalFrequency*time)
+signal2 = signalAmplitude*np.cos(2*np.pi*signalFrequency*time)
+
+fig1 = plt.figure()
+ax1 = plt.gca()
+ax1.plot(time,signal1)
+ax1.set_xlabel("Time (s)")
+ax1.set_ylabel("Signal 1")
+
+fig2 = plt.figure()
+ax2 = plt.gca()
+ax2.plot(time,signal2)
+ax2.set_xlabel("Time (s)")
+ax2.set_ylabel("Signal 2")
+
+# save first set of figures
+figPath = save_figures(
+  "figures/",
+  "Signal_figures",
+  params,
+  returnPath=True
+)
+
+plt.close('all')
+
+fig3 = plt.figure()
+ax1 = plt.gca()
+ax1.plot(time,signal1+signal2)
+ax1.set_xlabel("Time (s)")
+ax1.set_ylabel("Signal 1 + Signal 2")
+
+fig4 = plt.figure()
+ax2 = plt.gca()
+ax2.plot(time,signal1-signal2)
+ax2.set_xlabel("Time (s)")
+ax2.set_ylabel("Signal 1 - Signal 2")
+
+# save next set of figures
+save_figures(
+  "figures/",
+  "Signal_figures",
+  params,
+  subFolderName=figPath.stem
+)
+
+plt.show()
+```
 
 ### `kwargs` for `save_figures`
 There are multiple ways to adjust the behavior of this function with `kwargs`. Specifically,
 
   * `fileType` (default is "png") - You can change the file extension to any of the following: "eps", "pdf", "pgf", "png", "ps", "raw", "rgba", "svg", "svgz". Note that saving them as "pdf" will save each figure individually, where the `kwargs` `saveAsPDF` will combine them into a single file.
   * `subFolderName` (default is the time stamped folder name) - Sometimes it is more convenient to name the subfolder yourself **or** to send files to a previously defined location. In this case, just specify the `subFolderName` and it will send the figures there. Note that this should only be done for trials where the parameters *do not change* as the `notes.txt` files is only generated when the subfolder is created.
+  * `addNotes` (default `None`) - This will allow for notes to be added to the `notes.txt` or `README.md` files directly from the function call. Must be a `str`.
+  * `saveAsMD` (default `False`) - If true, the notes will be saved in Github-flavored markdown which includes figure displays in addition to notes and parameters. This can be viewed directly from the figure folder once uploaded to your projects repository or locally with a markdown previewer (like Atom).
   * `saveAsPDF` (default `False`) - If true, in addition to saving the figures as the specified filetype, a single PDF will be constructed to include all figures generated.
-  * `returnPath` (default `False`) - If you intend on saving additional figures to the folder location, this option allows you to return the path of the subfolder. Use this for the first trial and the `subFolderName` argument for any additional trials to send new figures to the same location.
+  * `returnPath` (default `False`) - If you intend on saving additional figures to the folder location, this option allows you to return the path of the subfolder. Use this for the first trial and the `subFolderName` argument for any additional trials to send new figures to the same location. Note that this returns a `Path` item from the `pathlib` package, which means that the subfolder name can be recovered by the command `<figure subfolder path>.stem`
   * `figs` (default will save every figure open) - You can alternatively specify the specific figures that you wish to save. This should be a list of figures.
+
+### Simple `timer` class that allows you to keep track of function run/loop times.
+
+This class creates a timer that allows you to keep track of how long loops take to run. This can be particularly helpful if you are running many large loops with irregular run times and you want to keep track of how long your code has been running.
+
+To use this class, simply instantiate it with `myTimer = timer()` and then print updates after each loop with a variety of commands depending on what you are doing.
+
+As an example consider the code snippet below
+
+```py
+from danpy.useful_functions import timer
+import time
+
+myTimer = timer()
+
+myTimer.start()
+for i in range(5):
+    print("Trial " + str(i+1) + "\n")
+    time.sleep(5)
+    myTimer.loop()
+```
+
+Which prints the following output.
+
+```console
+Trial 1
+
+Total Run Time: 00:00:05 (00:00:05)
+
+Trial 2
+
+Total Run Time: 00:00:10 (00:00:05)
+
+Trial 3
+
+Total Run Time: 00:00:15 (00:00:05)
+
+Trial 4
+
+Total Run Time: 00:00:20 (00:00:05)
+
+Trial 5
+
+Total Run Time: 00:00:25 (00:00:05)
+```
+
+Alternatively, you can choose to only print the total run time of your code by starting the timer at the beginning and then ending it at the bottom of your code with the command `myTimer.end()`, which will print the total run time as well. If this is the case, you can select the arg `--single_trial` when the timer is initialized and the displays will adjust to only display the total run time (i.e., `myTimer = timer('--single_trial')`). Note, however, that you cannot use the `loop` function in single trial mode.
+
+If instead you wish to display or save the run time, the output of these functions can be suppressed by the kwarg `verbose=0`. The value of the `totalRunTime` can then be recovered as an attribute of the timer (i.e., `myTimer.totalRunTime`). Similarly, the trial run time can always be recovered by the attribute `trialRunTime`. And lastly, the formated `str` version of these values can be recovered by the attributes `totalRunTimeStr` and `trailRunTimeStr`, respectively.
+
+You can always reset your timer with the function `reset` as well, in case you ever needed to run back to back timers (but be sure to use `--single_trial` again if you want to continue using that option).
+
+```py
+from danpy.useful_functions import timer
+import time
+
+myTimer = timer()
+
+print("First Timer\n")
+myTimer.start()
+for i in range(5):
+    print("Trial " + str(i+1) + "\n")
+    time.sleep(5)
+    myTimer.loop()
+
+print("Second Timer\n")
+myTimer.reset()
+for i in range(5):
+    print("Trial " + str(i+1) + "\n")
+    time.sleep(5)
+    myTimer.loop()
+```
+
+### Simple test function for asserting a variable is, in fact, a number.
+In order to quickly test if a variable is a number (and not a `str` or `bool`), simply type `is_number(variable,variableName)` as such:
+
+```py
+from danpy.useful_function import is_number
+
+myVariable = 3.1415926536
+is_number(myVariable,"myVariable")
+```
+
+This will not raise an AssertionError as `myVariable` is a number. To make the debugging easier to locate, the additional arguments `default` and `notes` have been added.
+
+```py
+from danpy.useful_functions import is_number
+
+myVariable = "Not a number"
+defaultValue = 3.1415926536
+notes = "This is where I would put notes pertaining to the variable like relative magnitude, units, etc."
+
+is_number(myVariable,"myVariable",
+default=defaultValue,
+notes=notes
+)
+```
+
+which will raise the `AssertionError`:
+
+```console
+AssertionError: myVariable must be an int, float, float32, float64, or numpy.float not <class 'str'>. Default is 3.1415926536. This is where I would put notes pertaining to the variable like relative magnitude, units, etc.
+```
