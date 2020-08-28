@@ -55,14 +55,14 @@ def save_figures(destination,baseFileName,params,**kwargs):
 	subFolderName = kwargs.get("subFolderName",defaultSubFolderName)
 	assert type(subFolderName)==str, "subFolderName must be a str."
 
-    destination = Path(destination)
-    destinationPathParents = list(destination.parents)
-    destinationPathParents.insert(0,destination)
-    for i in reversed(range(len(destinationPathParents))):
-        if destinationPathParents[i].exists():
-            pass
-        else:
-            destinationPathParents[i].mkdir()
+	destination = Path(destination)
+	destinationPathParents = list(destination.parents)
+	destinationPathParents.insert(0,destination)
+	for i in reversed(range(len(destinationPathParents))):
+		if destinationPathParents[i].exists():
+			pass
+		else:
+			destinationPathParents[i].mkdir()
 
 	filePath = destination / subFolderName
 
