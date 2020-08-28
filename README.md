@@ -1,8 +1,11 @@
-# Collection of useful python functions/features.
-Prepared by: Daniel A Hagen  
-[![Build Status](https://travis-ci.com/danhagen/danpy.svg?branch=master)](https://travis-ci.com/danhagen/danpy)
-[![PEP8](https://img.shields.io/badge/code%20style-pep8-green.svg)](https://www.python.org/dev/peps/pep-0008/)
-[![Coverage Status](https://coveralls.io/repos/github/danhagen/danpy/badge.svg?branch=master&service=github)](https://coveralls.io/github/danhagen/danpy?branch=master&service=github)
+<h1 align="center">DanPy</h1>
+<h2 align="center">A Collection of Useful Python Functions/Features</h2>
+<h3 align="center">Written by: Daniel A Hagen</h3>
+<p align="center">
+  <img src="https://travis-ci.com/danhagen/danpy.svg?branch=master" alt="Build Status">
+  <img src="https://img.shields.io/badge/code%20style-pep8-green.svg" alt="PEP8">
+  <img src="https://coveralls.io/repos/github/danhagen/danpy/badge.svg?branch=master&service=github" alt="Coverage Status">
+</p>
 
 ## Installation
 ```py
