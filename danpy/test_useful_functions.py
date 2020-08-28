@@ -77,15 +77,15 @@ class Test_save_figures(unittest.TestCase):
 		except:
 			self.fail("save_figures() raised Error unexpectedly!")
 
-    def test_save_figures_good_new_dir(self):
+	def test_save_figures_good_new_dir(self):
 		try:
-            plot_empty_figure()
-            save_figures("TEMP_DIR/folder1/folder2","a",{"a":1})
-            plt.close('all')
+			plot_empty_figure()
+			save_figures("TEMP_DIR/folder1/folder2","a",{"a":1})
+			plt.close('all')
 
 			self.assertTrue("TEMP_DIR" in os.listdir())
-            self.assertTrue("folder1" in os.listdir("TEMP_DIR"))
-            self.assertTrue("folder2" in os.listdir(Path("TEMP_DIR/folder1")))
+			self.assertTrue("folder1" in os.listdir("TEMP_DIR"))
+			self.assertTrue("folder2" in os.listdir(Path("TEMP_DIR/folder1")))
 			self.assertTrue(len(os.listdir(Path("TEMP_DIR/folder1/folder2")))==1)
 			self.assertTrue(
 				datetime.today().strftime("%Y_%m_%d")
