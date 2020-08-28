@@ -147,9 +147,13 @@ AssertionError: myVariable must be an int, float, float32, float64, or numpy.flo
 ```
 
 ### Simple function to save all current figures.
-The function `save_figures` is designed to save all current figures in a convenient location for easy recovery and comparison. I find that this works best if you create a "figures/ "folder first so that your figures automatically get organized in a location other than your code.
+The function `save_figures` is designed to save all currently open figures (or a prescribed subset of them) to a convenient location for easy storing, viewing, and comparison.
+I find that this works best if you create a "figures/" destination folder first so that your figures automatically get organized in a location other than location of your project's source code.
 
-In order to save your figures, you must specify the `destination` of the figures (in this case, "figures/"), the `baseFileName` (which can be used to further identify the figures), and a dictionary of the parameters (`params`) used to create these plots. This last part is a little different, but proves to be incredibly useful when you need to compare trials across parameters. This will also be used to create a `notes.txt` file that allows for quick reference of the used parameters. As an example, try:
+In order to save your figures, you must specify the `destination` of the figures (`str`, in this case, "figures/"), the `baseFileName` (`str`, which can be used to further describe the figures), and a dictionary of the parameters (`params`:`dict`) used to create these plots.
+Note that the `destination` must be an existing directory in order for the figures to properly save.
+The `params` argument is a little different and can left blank (i.e., `{}`) if desired, but I find that this input proves to be incredibly useful when you need to compare parameters across trials.
+This will also be used to create a `notes.txt` (or `README.md`) file that allows for quick reference of the used parameters. As an example, try:
 
 ```py
 from danpy.useful_functions import save_figures
@@ -227,4 +231,4 @@ There are multiple ways to adjust the behavior of this function with `kwargs`. S
   * `subFolderName` (default is the time stamped folder name) - Sometimes it is more convenient to name the subfolder yourself **or** to send files to a previously defined location. In this case, just specify the `subFolderName` and it will send the figures there. Note that this should only be done for trials where the parameters *do not change* as the `notes.txt` files is only generated when the subfolder is created.
   * `saveAsPDF` (default `False`) - If true, in addition to saving the figures as the specified filetype, a single PDF will be constructed to include all figures generated.
   * `returnPath` (default `False`) - If you intend on saving additional figures to the folder location, this option allows you to return the path of the subfolder. Use this for the first trial and the `subFolderName` argument for any additional trials to send new figures to the same location.
-  * `figs` (default will save every figure open) - You can alternatively specify the specific figures that you wish to save. This should be a list of figures. 
+  * `figs` (default will save every figure open) - You can alternatively specify the specific figures that you wish to save. This should be a list of figures.

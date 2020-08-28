@@ -1,3 +1,9 @@
+##############################################################
+## danpy timer class, is_number func, and save_figures func ##
+##                   By: Daniel A. Hagen                    ##
+##                Last Modified: 08/28/2020                 ##
+##############################################################
+
 import numpy as np
 import os.path
 import matplotlib._pylab_helpers
@@ -49,7 +55,15 @@ def save_figures(destination,baseFileName,params,**kwargs):
 	subFolderName = kwargs.get("subFolderName",defaultSubFolderName)
 	assert type(subFolderName)==str, "subFolderName must be a str."
 
-	destination = Path(destination)
+    destination = Path(destination)
+    destinationPathParents = list(destination.parents)
+    destinationPathParents.insert(0,destination)
+    for i in reversed(range(len(destinationPathParents))):
+        if destinationPathParents[i].exists():
+            pass
+        else:
+            destinationPathParents[i].mkdir()
+
 	filePath = destination / subFolderName
 
 	assert destination.exists() and destination.is_dir(), "destination either does not exist or is not a directory."

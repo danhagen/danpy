@@ -1,3 +1,9 @@
+#############################################################
+## danpy statusbar (dsb) class and get_terminal_width func ##
+##                  By: Daniel A. Hagen                    ##
+##               Last Modified: 08/28/2020                 ##
+#############################################################
+
 import time
 from scipy import interpolate
 import numpy as np
