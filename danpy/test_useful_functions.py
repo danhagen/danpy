@@ -1,4 +1,4 @@
-# test_useful_functions.py 
+# test_useful_functions.py
 
 # By: Daniel A. Hagen
 # Last Modified: 08/28/2020
@@ -76,6 +76,26 @@ class Test_save_figures(unittest.TestCase):
 			self.assertTrue(figPath/"a_01-01.png" in figPath.iterdir())
 		except:
 			self.fail("save_figures() raised Error unexpectedly!")
+
+    def test_save_figures_good_new_dir(self):
+		try:
+            plot_empty_figure()
+            save_figures("TEMP_DIR/folder1/folder2","a",{"a":1})
+            plt.close('all')
+
+			self.assertTrue("TEMP_DIR" in os.listdir())
+            self.assertTrue("folder1" in os.listdir("TEMP_DIR"))
+            self.assertTrue("folder2" in os.listdir(Path("TEMP_DIR/folder1")))
+			self.assertTrue(len(os.listdir(Path("TEMP_DIR/folder1/folder2")))==1)
+			self.assertTrue(
+				datetime.today().strftime("%Y_%m_%d")
+				in os.listdir(Path("TEMP_DIR/folder1/folder2"))[0]
+			)
+			figPath = Path("TEMP_DIR/folder1/folder2") / os.listdir(Path("TEMP_DIR/folder1/folder2"))[0]
+			self.assertTrue(figPath/"notes.txt" in figPath.iterdir())
+			self.assertTrue(figPath/"a_01-01.png" in figPath.iterdir())
+		except:
+			self.fail("save_figures() raised Error unexpectedly when new directory was used!")
 
 	def test_save_figures_good_appended(self):
 		try:
@@ -261,15 +281,15 @@ class Test_save_figures(unittest.TestCase):
 		except:
 			self.fail("save_figures(saveAsPDF=...) raised Error unexpectedly!")
 
-	def test_save_figures_bad_destination_1(self):
+	def test_save_figures_bad_destination(self):
 		self.assertRaises(TypeError,save_figures,
 			1,"a",{"a":1}
 		) # poor destination (not a str)
 
-	def test_save_figures_bad_destination_2(self):
-		self.assertRaises(AssertionError,save_figures,
-			"not a dir","a",{"a":1}
-		) # poor destination (not a dir)
+	# def test_save_figures_bad_destination_2(self):
+	# 	self.assertRaises(AssertionError,save_figures,
+	# 		"not a dir","a",{"a":1}
+	# 	) # poor destination (not a dir)
 
 	def test_save_figures_bad_baseFileName(self):
 		create_temp_dir()
